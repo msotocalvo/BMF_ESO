@@ -1022,9 +1022,7 @@ class SineEnvelop:
     type = 'multimodal'
 
     @staticmethod
-    def function(x):
-        # term1 =  np.sin(np.sqrt(x[i+1]**2 + x[i]**2) - 0.5)**2
-        # term2 = (0.001*(x[i+1]**2 + x[i]**2) + 1)**2
+    def function(x):       
         return - np.sum((np.sin(np.sqrt(x[i+1]**2 + x[i]**2) - 0.5)**2) / ((0.001*(x[i+1]**2 + x[i]**2) + 1)**2) + 0.5 for i in range(len(x) - 1))
 
 class Stochastic:
@@ -1037,7 +1035,6 @@ class Stochastic:
     def function(x):
         epsilon = np.random.uniform(0, 1, size=len(x))
         return np.sum(epsilon * np.abs(x - 1 / (np.arange(1, len(x) + 1))))
-
 
 class Step1:
     name = 'Step 1'
@@ -1142,27 +1139,7 @@ class Ursem1: ## OK
 
     @staticmethod
     def function(x):
-        return -np.sin(2 * x[0] - 0.5 * np.pi) - 3.0 * np.cos(x[1]) - 0.5 * x[0]
-
-class Ursem3:
-    name = 'Ursem 3'
-    optimal = -1.285
-    bounds = (-2,2), (-1.5,1.5)
-    type = 'multimodal'
-
-    @staticmethod
-    def function(x):
-        return -0.9*x[0]**2 + (x[1]**2 - 4.5*x[1]**2)*x[1]*x[0] + 4.7*np.cos(2*x[0] - x[1]**2*( 2 + x[0]))*np.sin(2.5*np.pi*x[0])
-    
-class UrsemWaves:
-    name = 'Ursem Waves'
-    optimal = -8.5536
-    bounds = (-0.9,12), (-1.2,1.2)
-    type = 'multimodal'
-
-    @staticmethod
-    def function(x):
-        return -np.sin(2.2*np.pi*x[0] + 0.5) * ((2 - abs(x[0])) / 2)**3 - np.sin(0.5*np.pi*x[1]**2 + 0.5) * ((2 - abs(x[1])) / 2)**3    
+        return -np.sin(2 * x[0] - 0.5 * np.pi) - 3.0 * np.cos(x[1]) - 0.5 * x[0]   
 
 class Weierstrass:
     name = 'Weierstrass'
@@ -1173,29 +1150,6 @@ class Weierstrass:
     @staticmethod
     def function(x):
         return np.sum([np.sum([0.5**(i+1) * np.cos(2 * np.pi * 3**i * (xi + 0.5)) for i in range(20)]) for xi in x]) - len(x) * np.sum([np.sum([0.5**(i+1) * np.cos(2 * np.pi * 3**i * 0.5) for i in range(20)])])
-
-class Watson:
-    name = 'Watson'
-    optimal = 0.002288
-    bounds = (-5,5)
-    type = 'unimodal'
-
-    @staticmethod
-    def function(x):
-        total_sum = 0
-        for i in range(30):  # i goes from 0 to 29
-            a_i = i / 29.0
-            sum1 = 0
-            sum2 = 0
-            
-            for j in range(1, 6):  # Assuming x has at least 6 elements
-                sum1 += j * x[j] * (a_i ** (j - 1))
-                sum2 += x[j] * (a_i ** j)
-            
-            total_sum += (sum1 - sum2**2 - 1)**2
-            
-        total_sum += x[0]**2
-        return total_sum
     
 class WayburnSeader1:
     name = 'Wayburn Seader 1'
@@ -1217,16 +1171,7 @@ class WayburnSeader2:
     def function(x):
         return (1.613 - 4*(x[0] - 0.3125)**2 - 4*(x[1] - 1.625)**2)**2 + (x[1] - 1)**2
     
-class Whitley:
-    name = 'Whitley'
-    optimal = 0.0
-    bounds = (-10.24,10.24)
-    type = 'multimodal'
 
-    @staticmethod
-    def function(x):
-        return sum(sum(((100 * (x[i]**2 - x[j])**2 + (1 - x[j])**2)**2 / 4000 - np.cos(100 * (x[i]**2 - x[j])**2 + (1 - x[j])**2) + 1) for j in range(len(x))) for i in range(len(x)))   
-    
 class XinSheYang1:
     name = 'Xin-She Yang 1'
     optimal = 0
@@ -1568,7 +1513,7 @@ class ShiftedRotatedExpFunction:
 
 class ShiftedBooth:
     name = 'Shifted Booth'
-    optimal = 49.5  # Valor óptimo
+    optimal = 49.5  
     bounds = (-10, 10)
     type = 'unimodal'
     shift = np.array([2, 3])  # El óptimo estará en (3,3) + shift = (5,6)
@@ -1580,7 +1525,7 @@ class ShiftedBooth:
 
 class ShiftedRotatedCrossInTray:
     name = 'Shifted Rotated Cross-in-Tray'
-    optimal = -2.062611870825  # Valor óptimo
+    optimal = -2.062611870825  
     bounds = (-10, 10)
     type = 'multimodal'
     shift = np.array([3, 3])
@@ -1598,10 +1543,10 @@ class ShiftedRotatedCrossInTray:
 
 class ShiftedRotatedHimmelblau:
     name = 'Shifted Rotated Himmelblau'
-    optimal = 15.0  # El óptimo no está en 0
+    optimal = 15.0  
     bounds = (-6, 6)
     type = 'multimodal'
-    dimension = 4  # Aumentamos la dimensionalidad
+    dimension = 4  
     shift = np.array([2, 3, 1, -1])  
     # Matriz de rotación 4D usando rotaciones en múltiples planos
     rotation_matrix = np.array([
@@ -1620,7 +1565,7 @@ class ShiftedRotatedHimmelblau:
 
 class ShiftedRotatedStyblinski: 
     name = 'Shifted Rotated Styblinski-Tang'
-    optimal = -226.6807  # Óptimo negativo
+    optimal = -226.6807  
     bounds = (-5, 5)
     type = 'multimodal'
     dimension = 5  # Dimensionalidad 5
@@ -1641,7 +1586,7 @@ class ShiftedRotatedStyblinski:
 
 class ShiftedRotatedMichalewicz:
     name = 'Shifted Rotated Michalewicz'
-    optimal = 3.3831  # Óptimo personalizado
+    optimal = 3.3831  
     bounds = (0, np.pi)
     type = 'multimodal'
     dimension = 6  # 6 dimensiones
@@ -1665,7 +1610,7 @@ class ShiftedRotatedMichalewicz:
 
 class ShiftedRotatedYang:
     name = 'Shifted Rotated Yang'
-    optimal = 32.85  # Óptimo positivo
+    optimal = 32.85  
     bounds = (-10, 10)
     type = 'multimodal'
     dimension = 8  # 8 dimensiones
@@ -1689,7 +1634,7 @@ class ShiftedRotatedYang:
 
 class ShiftedRotatedPathological:
     name = 'Shifted Rotated Pathological'
-    optimal = 75.0  # Óptimo personalizado
+    optimal = 75.0  
     bounds = (-100, 100)
     type = 'multimodal'
     dimension = 7  # 7 dimensiones
@@ -1717,7 +1662,7 @@ class ShiftedRotatedPathological:
 
 class ShiftedRotatedMultiModal:
     name = 'Shifted Rotated MultiModal'
-    optimal = 200.0  # Óptimo alto
+    optimal = 200.0  
     bounds = (-50, 50)
     type = 'multimodal'
     dimension = 10  # 10 dimensiones
@@ -1737,13 +1682,13 @@ class ShiftedRotatedMultiModal:
 
 class ShiftedRotatedComposite:
     name = 'Shifted Rotated Composite'
-    optimal = 150.0  # Óptimo personalizado
+    optimal = 150.0  
     bounds = (-30, 30)
     type = 'multimodal'
     dimension = 12  # 12 dimensiones
     shift = np.array([3, -3, 6, -6, 9, -9, 12, -12, 15, -15, 18, -18])
     # Matriz de rotación 12D usando una composición de rotaciones
-    rotation_matrix = np.eye(12)  # Comenzamos con la matriz identidad
+    rotation_matrix = np.eye(12)  
     for i in range(11):
         # Aplicamos rotaciones sucesivas en planos diferentes
         theta = np.pi / (i + 2)
