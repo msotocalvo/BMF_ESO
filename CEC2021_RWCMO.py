@@ -224,7 +224,7 @@ class CEC2021_RWCMO_5:
 
 class CEC2021_RWCMO_6:
     name = "Speed Reducer Design Problem"
-    optimal = 0  # Si el valor óptimo es desconocido
+    optimal = 0  # Valor optimo desconocido
     bounds = [(2.6, 3.6), (0.7, 0.8), (17, 28), (7.3, 8.3), (7.8, 8.3), (2.9, 3.9), (5, 5.5)]
     
     @staticmethod
@@ -279,8 +279,7 @@ class CEC2021_RWCMO_7:
 
 class CEC2021_RWCMO_8:
     name = "Car Side Impact Design Problem"
-    optimal = 0  # Si el valor óptimo es desconocido
-    # Asumiendo límites para x1 a x7, ajustar según sea necesario
+    optimal = 0  # Valor optimo desconocido
     bounds = [(0.5, 1.5), (0.45, 1.35), (0.5, 1.5), (0.5, 1.5), (0.875, 2.625), (0.4, 1.2), (0.4, 1.2)]
     
     @staticmethod
@@ -412,7 +411,7 @@ class CEC2021_RWCMO_11:
 
 class CEC2021_RWCMO_12:
     name = "Simply Supported I-beam Design"
-    optimal = 0  # Si el valor óptimo es desconocido o no aplicable
+    optimal = 0  
     bounds = [(10, 80), (10, 50), (0.9, 5), (0.9, 5)]  # Ejemplo de límites, ajustar según sea necesario
 
     @staticmethod
@@ -436,7 +435,7 @@ class CEC2021_RWCMO_12:
 
 class CEC2021_RWCMO_13:
     name = "Gear Box Design"
-    optimal = 0  # Si el valor óptimo es desconocido o no aplicable
+    optimal = 0 
     bounds = [(2.6, 3.6), (0.7, 0.8), (17, 28), (7.3, 8.3), (7.8, 8.3), (2.9, 3.9), (5.0, 5.5)]  # Ejemplo de límites
 
     @staticmethod
@@ -508,7 +507,7 @@ class CEC2021_RWCMO_14:
 
 class CEC2021_RWCMO_15:
     name = "Spring Design Problem"
-    optimal = 0  # Si el valor óptimo es desconocido o no aplicable
+    optimal = 0 
     bounds = [(1, 70), (0.6, 3), (1, 42)]  # Ejemplo de límites
 
     @staticmethod
@@ -552,7 +551,7 @@ class CEC2021_RWCMO_15:
     
 class CEC2021_RWCMO_16:
     name = "Cantilever Beam Design Problem"
-    optimal = 0  # Si se desconoce el valor óptimo o no es aplicable
+    optimal = 0  
     bounds = [(0.01, 0.05), (0.20, 1)]  
     
     @staticmethod
@@ -592,17 +591,16 @@ class CEC2021_RWCMO_16:
 
 class CEC2021_RWCMO_17:
     name = "Bulk Carriers Design Problem"
-    optimal = 0  # Si se desconoce el valor óptimo o no es aplicable
-    bounds = [(150, 274.32),  # Suposiciones de límites para L
-              (20, 32.31),    # Suposiciones de límites para B
-              (13, 25),    # Suposiciones de límites para D
-              (10, 11.71),     # Suposiciones de límites para T
-              (14, 18),    # Suposiciones de límites para V_k
-              (0.63, 0.75)] # Suposiciones de límites para C_B
+    optimal = 0  
+    bounds = [(150, 274.32),  
+              (20, 32.31),   
+              (13, 25),    
+              (10, 11.71),     
+              (14, 18),    
+              (0.63, 0.75)] 
     
     @staticmethod
     def function(x):
-        # Asegurarse que x tiene la forma adecuada para las operaciones
         x = np.atleast_2d(x)
         
         # Extraer variables
@@ -657,14 +655,13 @@ class CEC2021_RWCMO_17:
 
 class CEC2021_RWCMO_18:
     name = "Front Rail Design Problem"
-    optimal = 0  # Si se desconoce el valor óptimo o no es aplicable
-    bounds = [(136, 146),  # Suposiciones de límites para hh
-              (58, 68),    # Suposiciones de límites para w
-              (1.4, 2.2)]  # Suposiciones de límites para t
+    optimal = 0 
+    bounds = [(136, 146),  
+              (58, 68),   
+              (1.4, 2.2)]  
     
     @staticmethod
     def function(x):
-        # Asegurarse que x tiene la forma adecuada para las operaciones
         x = np.atleast_2d(x)
         
         # Extraer variables
@@ -699,7 +696,7 @@ class CEC2021_RWCMO_18:
 class CEC2021_RWCMO_20:
     name = "Hydro-static Thrust Bearing Design Problem"
     optimal =  1.6254428092 * 10e+03
-    bounds = [(1, 16), (1, 16), (10e-6, 16*10e-6), (1, 16)]  # Ejemplo de límites para R, Ro, mu, Q
+    bounds = [(1, 16), (1, 16), (10e-6, 16*10e-6), (1, 16)]  
 
     @staticmethod
     def function(x):
@@ -802,7 +799,7 @@ class CEC2021_RWCMO_21:
 class CEC2021_RWCMO_22:
     ####Implementation checked####
     name = "Haverly's Pooling Problem"
-    optimal = -4.0000560000 * 10e+02# Si se desconoce el valor óptimo o no es aplicable
+    optimal = -4.0000560000 * 10e+02
     bounds = [(0, 100), (0, 200), (0, 100), (0, 100), (0, 100), (0, 100), (0, 200), (0, 100), (0, 200)]
 
     @staticmethod
@@ -834,7 +831,7 @@ class CEC2021_RWCMO_22:
 class CEC2021_RWCMO_23:
     #### Implementation cheked####
     name = "Reactor Network Design"
-    optimal = -3.8826043623 * 10e-01 # Si el valor óptimo es desconocido o no aplicable
+    optimal = -3.8826043623 * 10e-01
     bounds = [(0, 1), (0, 1), (0, 1), (0, 1), (0.00001, 16), (0.00001, 16)]
     k1 = 0.09755988
     k2 = 0.99 * k1
@@ -1108,7 +1105,7 @@ class CEC2021_RWCMO_29:
 class CEC2021_RWCMO_30:
     name = "SOPWM for 3-level Inverters"
     optimal = 3.8029250566 * 10e-02
-    bounds = [(0, np.pi / 2)] * 10  # Suposición de 10 ángulos de conmutación como ejemplo
+    bounds = [(0, np.pi / 2)] * 10  
 
     @staticmethod
     def function(x):
@@ -1144,8 +1141,7 @@ class CEC2021_RWCMO_30:
 class CEC2021_RWCMO_31:
     name = "SOPWM for 5-level Inverters"
     optimal = 2.1215000000 * 10e-02
-    # Los límites deberían ser adecuados para el rango de ángulos que se utilizan en los cálculos de coseno
-    bounds = [(0, np.pi / 2) for _ in range(25)]  # Ejemplo de límites para cada variable de fase
+    bounds = [(0, np.pi / 2) for _ in range(25)]  
 
     @staticmethod
     def function(x):
@@ -1186,9 +1182,8 @@ class CEC2021_RWCMO_31:
 
 class CEC2021_RWCMO_32:
     name = "SOPWM for 7-level Inverters"
-    optimal = 1.5164538375 * 10e-02
-    # Los límites deberían ser adecuados para el rango de ángulos que se utilizan en los cálculos de coseno
-    bounds = [(0, np.pi / 2) for _ in range(25)]  # Ejemplo de límites para cada variable de fase
+    optimal = 1.5164538375 * 10e-02    
+    bounds = [(0, np.pi / 2) for _ in range(25)]  
 
     @staticmethod
     def function(x):
@@ -1228,9 +1223,8 @@ class CEC2021_RWCMO_32:
 
 class CEC2021_RWCMO_33:
     name = "SOPWM for 9-level Inverters"
-    optimal =  1.6787535766 * 10e-02
-    # Los límites deberían ser adecuados para el rango de ángulos que se utilizan en los cálculos de coseno
-    bounds = [(0, np.pi / 2) for _ in range(30)]  # Ejemplo de límites para cada variable de fase
+    optimal =  1.6787535766 * 10e-02    
+    bounds = [(0, np.pi / 2) for _ in range(30)]  
 
     @staticmethod
     def function(x):
@@ -1270,9 +1264,8 @@ class CEC2021_RWCMO_33:
 
 class CEC2021_RWCMO_34:
     name = "SOPWM for 11-level Inverters"
-    optimal = 9.3118741800 * 10e-03
-    # Los límites deberían ser adecuados para el rango de ángulos que se utilizan en los cálculos de coseno
-    bounds = [(0, np.pi / 2) for _ in range(30)]  # Ejemplo de límites para cada variable de fase
+    optimal = 9.3118741800 * 10e-03   
+    bounds = [(0, np.pi / 2) for _ in range(30)] 
 
     @staticmethod
     def function(x):
@@ -1312,14 +1305,13 @@ class CEC2021_RWCMO_34:
 
 class CEC2021_RWCMO_35:
     name = "SOPWM for 13-level Inverters"
-    optimal = 1.5096451396 * 10e-02
-    # Supongamos que los límites de las variables son entre 0 y 180 grados
-    bounds = [(0, np.pi / 2)] * 30  # Ajustar según la necesidad, suponiendo que D es 30
+    optimal = 1.5096451396 * 10e-02   
+    bounds = [(0, np.pi / 2)] * 30 
 
     @staticmethod
     def function(x):
         # Convertir x a array de numpy si aún no lo es
-        x = np.atleast_2d(x)  # Esto asegura que x tenga al menos dos dimensiones
+        x = np.atleast_2d(x) 
         
         m = 0.32
         s = np.array([1, 1, 1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, -1, 1, -1, 1])
@@ -1339,7 +1331,7 @@ class CEC2021_RWCMO_35:
 class CEC2021_RWCMO_36:
     name = "Optimal Sizing of Single Phase Distributed Generation"
     optimal = 0  # Valor óptimo desconocido
-    bounds = [(0, 1)] * 24 + [(-1, 1)] * 4  # Límites para las variables de voltaje y generación
+    bounds = [(0, 1)] * 24 + [(-1, 1)] * 4 
 
     @staticmethod
     def function(x):
@@ -1569,8 +1561,7 @@ class CEC2021_RWCMO_37:
 
 class CEC2021_RWCMO_46:
     name = "Optimal Power flow (Minimization of Fuel Cost, voltage deviation, active and reactive power loss)"
-    optimal = 0  # Valor óptimo desconocido
-    # Asumiendo que las decisiones incluyen tensiones reales e imaginarias, y generaciones de P y Q en ciertos nodos
+    optimal = 0  # Valor óptimo desconocido    
     bounds = [(-1, 1)] * 26 + [(0, 10)] * 4  # Ajustar según las necesidades reales de los límites de voltaje y generación
 
     @staticmethod
@@ -1775,7 +1766,7 @@ class CEC2021_RWCMO_51:
 class CEC2021_RWCMO_52:    
     name = "Knapsack Problem"
     optimal = 0  # Valor óptimo desconocido
-    bounds = [(0, 1)] * 50  # Asumiendo que hay 50 ítems, y cada uno puede estar o no en la mochila (binario)    
+    bounds = [(0, 1)] * 50  
        
         
     @staticmethod
@@ -1795,8 +1786,7 @@ class CEC2021_RWCMO_52:
     
 class BeamOptimization:
     name = "40-Bar Beam Optimization"
-    optimal = 0  # Valor óptimo desconocido, se busca minimizar la deflexión
-    # Definimos los límites de cada variable: diámetro de las barras y longitud de cada sección
+    optimal = 0  # Valor óptimo desconocido, se busca minimizar la deflexión   
     bounds = [(0.05, 0.5)] * 40 + [(1, 5)] * 40  # 40 diámetros y 40 longitudes
 
     @staticmethod
@@ -1841,7 +1831,7 @@ class BeamOptimization:
 
 class WaterResourceManagement:
     name = "Dam System Optimization"
-    optimal = 0  # Valor óptimo desconocido, se busca minimizar los costos
+    optimal = 0  
     bounds = [(15, 90), (20, 85), (18, 80)]  # Volúmenes de agua almacenados en cada represa (en millones de m^3)
     
     min_levels = [15, 20, 18]
