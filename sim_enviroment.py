@@ -22,84 +22,6 @@ D = 100
 problem_group = 'All' # Group of functions to be optimized 
 
 ##### General Benchmark Functions
-# test_functions = [
-#     {'func': Booth.function, 'name': 'F1', 'optimal': Booth.optimal, 'bounds': [(-10, 10) for _ in range(D)]},
-#     {'func': Cone.function, 'name': 'F2', 'optimal': Cone.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': ChungReynolds.function, 'name': 'F3', 'optimal': ChungReynolds.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': Ellipse.function, 'name': 'F4', 'optimal': Ellipse.optimal, 'bounds': [(-10, 10) for _ in range(D)]},
-#     {'func': ElAttarVidyasagarDutta.function, 'name': 'F5', 'optimal': ElAttarVidyasagarDutta.optimal, 'bounds': [ElAttarVidyasagarDutta.bounds for _ in range(D)]},
-#     {'func': Leon.function, 'name': 'F6', 'optimal': Leon.optimal, 'bounds': [(-1.2, 1.2) for _ in range(D)]},
-#     {'func': PowellSingular1.function, 'name': 'F7', 'optimal': PowellSingular1.optimal, 'bounds': [(-4, 5) for _ in range(D)]},
-#     {'func': PowellSingular2.function, 'name': 'F8', 'optimal': PowellSingular2.optimal, 'bounds': [(-4, 5) for _ in range(D)]},
-#     {'func': PowellSum.function, 'name': 'F9', 'optimal': PowellSum.optimal, 'bounds': [(-1, 1) for _ in range(D)]},
-#     {'func': Ridge.function, 'name': 'F10', 'optimal': Ridge.optimal, 'bounds': [Ridge.bounds for _ in range(D)]},
-#     {'func': Rosenbrock.function, 'name': 'F11', 'optimal': Rosenbrock.optimal, 'bounds': [(0, 1) for _ in range(D)]},
-#     {'func': Schwefel01.function, 'name': 'F12', 'optimal': Schwefel01.optimal, 'bounds': [(-500, 500) for _ in range(D)]},
-#     {'func': Schwefel02.function, 'name': 'F13', 'optimal': Schwefel02.optimal, 'bounds': [(-1, 4) for _ in range(D)]},
-#     {'func': Schwefel20.function, 'name': 'F14', 'optimal': Schwefel20.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': Schwefel21.function, 'name': 'F15', 'optimal': Schwefel21.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': Schwefel22.function, 'name': 'F16', 'optimal': Schwefel22.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': Schwefel23.function, 'name': 'F17', 'optimal': Schwefel23.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': Sphere.function, 'name': 'F18', 'optimal': Sphere.optimal, 'bounds': [(-5.12, 5.12) for _ in range(D)]},
-#     {'func': Step3.function, 'name': 'F19', 'optimal': Step3.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': Stepint.function, 'name': 'F20', 'optimal': Stepint.optimal, 'bounds': [Stepint.bounds for _ in range(5)]},
-#     {'func': StretchedVSineWave.function, 'name': 'F21', 'optimal': StretchedVSineWave.optimal, 'bounds': [(-5, 5) for _ in range(D)]},
-#     {'func': SumSquares.function, 'name': 'F22', 'optimal': SumSquares.optimal, 'bounds': [(-10, 10) for _ in range(D)]},
-#     {'func': WayburnSeader1.function, 'name': 'F23', 'optimal': WayburnSeader1.optimal, 'bounds': [(-5, 5) for _ in range(D)]},
-#     {'func': WayburnSeader2.function, 'name': 'F24', 'optimal': WayburnSeader2.optimal, 'bounds': [(-500, 500) for _ in range(D)]},
-#     {'func': Zirilli.function, 'name': 'F25', 'optimal': Zirilli.optimal, 'bounds': [(-10, 10) for _ in range(D)]},
-#     {'func': ackley1.function, 'name': 'F26', 'optimal': ackley1.optimal, 'bounds': [(-32.768, 32.768) for _ in range(D)]},
-#     {'func': alpine_1.function, 'name': 'F27', 'optimal': alpine_1.optimal, 'bounds': [(-10, 10) for _ in range(D)]},
-#     {'func': BentCigar.function, 'name': 'F28', 'optimal': BentCigar.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': Corana.function, 'name': 'F29', 'optimal': Corana.optimal, 'bounds': [(-500,500) for _ in range(D)]},
-#     {'func': CrownedCross.function, 'name': 'F30', 'optimal': CrownedCross.optimal, 'bounds': [(-10, 10) for _ in range(D)]},
-#     {'func': CrossLegTable.function, 'name': 'F31', 'optimal': CrossLegTable.optimal, 'bounds': [(-10, 10) for _ in range(D)]},
-#     {'func': Csendes.function, 'name': 'F32', 'optimal': Csendes.optimal, 'bounds': [(-1, 1) for _ in range(D)]},
-#     {'func': Damavandi.function, 'name': 'F33', 'optimal': Damavandi.optimal, 'bounds': [(0, 14) for _ in range(D)]},
-#     {'func': Dolan.function, 'name': 'F34', 'optimal': Dolan.optimal, 'bounds': [Dolan.bounds for _ in range(D)]},
-#     {'func': DropWave.function, 'name': 'F35', 'optimal': DropWave.optimal, 'bounds': [DropWave.bounds for _ in range(D)]},
-#     {'func': EggCrate.function, 'name': 'F36', 'optimal': EggCrate.optimal, 'bounds': [(-5, 5) for _ in range(D)]},
-#     {'func': Griewank.function, 'name': 'F37', 'optimal': Griewank.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': OddSquare.function, 'name': 'F38', 'optimal': OddSquare.optimal, 'bounds': [OddSquare.bounds] * 19},
-#     {'func': Price2.function, 'name': 'F39', 'optimal': Price2.optimal, 'bounds': [Price2.bounds for _ in range(D)]},
-#     {'func': Rastrigin.function, 'name': 'F40', 'optimal': Rastrigin.optimal, 'bounds': [(-5.12, 5.12) for _ in range(D)]},
-#     {'func': RosenbrockModified.function, 'name': 'F41', 'optimal': RosenbrockModified.optimal, 'bounds': [(-2, 2) for _ in range(D)]},
-#     {'func': Salomon.function, 'name': 'F42', 'optimal': Salomon.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': Schaffer.function, 'name': 'F43', 'optimal': Schaffer.optimal, 'bounds': [(-100, 100) for _ in range(D)]},
-#     {'func': Stochastic.function, 'name': 'F44', 'optimal': Stochastic.optimal, 'bounds': [Stochastic.bounds for _ in range(2)]},
-#     {'func': Weierstrass.function, 'name': 'F45', 'optimal': Weierstrass.optimal, 'bounds': [(-0.5, 0.5) for _ in range(D)]},
-#     {'func': XinSheYang1.function, 'name': 'F46', 'optimal': XinSheYang1.optimal, 'bounds': [(-5, 5) for _ in range(D)]},
-#     {'func': XinSheYang2.function, 'name': 'F47', 'optimal': XinSheYang2.optimal, 'bounds': [(-2*np.pi, 2*np.pi) for _ in range(D)]},
-#     {'func': XinSheYang3.function, 'name': 'F48', 'optimal': XinSheYang3.optimal, 'bounds': [(-20, 20) for _ in range(D)]},
-#     {'func': ZeroSum.function, 'name': 'F49', 'optimal': ZeroSum.optimal, 'bounds': [ZeroSum.bounds for _ in range(D)]},
-#     {'func': Zimmerman.function, 'name': 'F50', 'optimal': Zimmerman.optimal, 'bounds': [Zimmerman.bounds for _ in range(D)]},
-#     {'func': cec2022.F12022(10).evaluate, 'name': 'F51-D10', 'optimal': 300, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F22022(10).evaluate, 'name': 'F52-D10', 'optimal': 400, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F32022(10).evaluate, 'name': 'F53-D10', 'optimal': 600, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F42022(10).evaluate, 'name': 'F54-D10', 'optimal': 800, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F52022(10).evaluate, 'name': 'F55-D10', 'optimal': 900, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F62022(10).evaluate, 'name': 'F56-D10', 'optimal': 1800, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F72022(10).evaluate, 'name': 'F57-D10', 'optimal': 2000, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F82022(10).evaluate, 'name': 'F58-D10', 'optimal': 2200, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F92022(10).evaluate, 'name': 'F59-D10', 'optimal': 2300, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F102022(10).evaluate, 'name': 'F60-D10', 'optimal': 2400, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F112022(10).evaluate, 'name': 'F61-D10', 'optimal': 2600, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F122022(10).evaluate, 'name': 'F62-D10', 'optimal': 2700, 'bounds': [(-100, 100) for _ in range(10)]},
-#     {'func': cec2022.F12022(20).evaluate, 'name': 'F51', 'optimal': 300, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F22022(20).evaluate, 'name': 'F52', 'optimal': 400, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F32022(20).evaluate, 'name': 'F53', 'optimal': 600, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F42022(20).evaluate, 'name': 'F54', 'optimal': 800, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F52022(20).evaluate, 'name': 'F55', 'optimal': 900, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F62022(20).evaluate, 'name': 'F56', 'optimal': 1800, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F72022(20).evaluate, 'name': 'F57', 'optimal': 2000, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F82022(20).evaluate, 'name': 'F58', 'optimal': 2200, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F92022(20).evaluate, 'name': 'F59', 'optimal': 2300, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F102022(20).evaluate, 'name': 'F60', 'optimal': 2400, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F112022(20).evaluate, 'name': 'F61', 'optimal': 2600, 'bounds': [(-100, 100) for _ in range(20)]},
-#     {'func': cec2022.F122022(20).evaluate, 'name': 'F62', 'optimal': 2700, 'bounds': [(-100, 100) for _ in range(20)]},     
-    
-# ]   
-
 test_functions = [
     # Unimodal primitive functions
     {'func': ackley2.function, 'name': 'F1', 'optimal': ackley2.optimal, 'bounds': [(-32,32) for _ in range(D)]},    
@@ -128,8 +50,8 @@ test_functions = [
     {'func': OddSquare.function, 'name': 'F23', 'optimal': OddSquare.optimal, 'bounds': [OddSquare.bounds] * 19},    
     {'func': Price2.function, 'name': 'F24', 'optimal': Price2.optimal, 'bounds': [Price2.bounds for _ in range(D)]},
     {'func': RosenbrockModified.function, 'name': 'F25', 'optimal': RosenbrockModified.optimal, 'bounds': [(-2, 2) for _ in range(D)]},
-    # ## Shifted and Rotated functions
     
+    ##### Shifted and Rotated functions    
      ## Unimodal
     {'func': ShiftedRotatedBooth.function, 'name': 'F26', 'optimal': ShiftedRotatedBooth.optimal, 'bounds': ShiftedRotatedBooth.bounds},
     {'func': ShiftedRotatedBrent.function, 'name': 'F27', 'optimal': ShiftedRotatedBrent.optimal, 'bounds': ShiftedRotatedBrent.bounds},
@@ -154,8 +76,7 @@ test_functions = [
     {'func': ShiftedRotatedRastrigin.function, 'name': 'F44', 'optimal': ShiftedRotatedRastrigin.optimal, 'bounds': ShiftedRotatedRastrigin.bounds},
     {'func': ShiftedRotatedSchaffer.function, 'name': 'F45', 'optimal': ShiftedRotatedSchaffer.optimal, 'bounds': ShiftedRotatedSchaffer.bounds},
       
-    # ## CEC 2022 Single Objective Optimization
-    
+    #### CEC 2022 Single Objective Optimization    
       ## Dimension 10
     {'func': cec2022.F12022(10).evaluate, 'name': 'F51-D10', 'optimal': 300, 'bounds': [(-100, 100) for _ in range(10)]},
     {'func': cec2022.F22022(10).evaluate, 'name': 'F52-D10', 'optimal': 400, 'bounds': [(-100, 100) for _ in range(10)]},
@@ -183,28 +104,18 @@ test_functions = [
     {'func': cec2022.F112022(20).evaluate, 'name': 'F61', 'optimal': 2600, 'bounds': [(-100, 100) for _ in range(20)]},
     {'func': cec2022.F122022(20).evaluate, 'name': 'F62', 'optimal': 2700, 'bounds': [(-100, 100) for _ in range(20)]},     
     
-    ## CEC 2021 Real World Multi-Objective Optimization
-    # {'func': CEC2021_RWCMO_0.function, 'name': CEC2021_RWCMO_0.name, 'optimal': CEC2021_RWCMO_0.optimal, 'bounds': CEC2021_RWCMO_0.bounds},
-    # {'func': CEC2021_RWCMO_4.function, 'name': CEC2021_RWCMO_4.name, 'optimal': CEC2021_RWCMO_4.optimal, 'bounds': CEC2021_RWCMO_4.bounds},
-    # {'func': CEC2021_RWCMO_14.function, 'name': CEC2021_RWCMO_14.name, 'optimal': CEC2021_RWCMO_14.optimal, 'bounds': CEC2021_RWCMO_14.bounds},
-    # {'func': CEC2021_RWCMO_22.function, 'name': CEC2021_RWCMO_22.name, 'optimal': CEC2021_RWCMO_22.optimal, 'bounds': CEC2021_RWCMO_22.bounds},
-    # {'func': CEC2021_RWCMO_23.function, 'name': CEC2021_RWCMO_23.name, 'optimal': CEC2021_RWCMO_23.optimal, 'bounds': CEC2021_RWCMO_23.bounds},
-    # {'func': CEC2021_RWCMO_28.function, 'name': CEC2021_RWCMO_28.name, 'optimal': CEC2021_RWCMO_28.optimal, 'bounds': CEC2021_RWCMO_28.bounds},
-    # {'func': CEC2021_RWCMO_29.function, 'name': CEC2021_RWCMO_29.name, 'optimal': CEC2021_RWCMO_29.optimal, 'bounds': CEC2021_RWCMO_29.bounds},
-    # {'func': CEC2021_RWCMO_35.function, 'name': CEC2021_RWCMO_35.name, 'optimal': CEC2021_RWCMO_35.optimal, 'bounds': CEC2021_RWCMO_35.bounds},
-    # {'func': CEC2021_RWCMO_36.function, 'name': CEC2021_RWCMO_36.name, 'optimal': CEC2021_RWCMO_36.optimal, 'bounds': CEC2021_RWCMO_36.bounds},
-    # {'func': CEC2021_RWCMO_50.function, 'name': CEC2021_RWCMO_50.name, 'optimal': CEC2021_RWCMO_50.optimal, 'bounds': CEC2021_RWCMO_50.bounds},
-    
-    
-    
+    ##### CEC 2021 Real World Multi-Objective Optimization
+    {'func': CEC2021_RWCMO_0.function, 'name': CEC2021_RWCMO_0.name, 'optimal': CEC2021_RWCMO_0.optimal, 'bounds': CEC2021_RWCMO_0.bounds},
+    {'func': CEC2021_RWCMO_4.function, 'name': CEC2021_RWCMO_4.name, 'optimal': CEC2021_RWCMO_4.optimal, 'bounds': CEC2021_RWCMO_4.bounds},
+    {'func': CEC2021_RWCMO_14.function, 'name': CEC2021_RWCMO_14.name, 'optimal': CEC2021_RWCMO_14.optimal, 'bounds': CEC2021_RWCMO_14.bounds},
+    {'func': CEC2021_RWCMO_22.function, 'name': CEC2021_RWCMO_22.name, 'optimal': CEC2021_RWCMO_22.optimal, 'bounds': CEC2021_RWCMO_22.bounds},
+    {'func': CEC2021_RWCMO_23.function, 'name': CEC2021_RWCMO_23.name, 'optimal': CEC2021_RWCMO_23.optimal, 'bounds': CEC2021_RWCMO_23.bounds},
+    {'func': CEC2021_RWCMO_28.function, 'name': CEC2021_RWCMO_28.name, 'optimal': CEC2021_RWCMO_28.optimal, 'bounds': CEC2021_RWCMO_28.bounds},
+    {'func': CEC2021_RWCMO_29.function, 'name': CEC2021_RWCMO_29.name, 'optimal': CEC2021_RWCMO_29.optimal, 'bounds': CEC2021_RWCMO_29.bounds},
+    {'func': CEC2021_RWCMO_35.function, 'name': CEC2021_RWCMO_35.name, 'optimal': CEC2021_RWCMO_35.optimal, 'bounds': CEC2021_RWCMO_35.bounds},
+    {'func': CEC2021_RWCMO_36.function, 'name': CEC2021_RWCMO_36.name, 'optimal': CEC2021_RWCMO_36.optimal, 'bounds': CEC2021_RWCMO_36.bounds},
+    {'func': CEC2021_RWCMO_50.function, 'name': CEC2021_RWCMO_50.name, 'optimal': CEC2021_RWCMO_50.optimal, 'bounds': CEC2021_RWCMO_50.bounds},    
 ]   
-
-# test_functions = [
-#     {'func': ShiftedRotatedStyblinski.function, 'name': 'F1', 'optimal': ShiftedRotatedStyblinski.optimal, 'bounds': [(-5, 5)]},         
-    
-# ]
-
-
 
 def create_algorithm(name, func, bounds, **params):
     if name == 'ABC':
@@ -348,10 +259,7 @@ def run_algorithm(test, name):
     
 if __name__ == '__main__':
     # Lista de nombres de algoritmos
-    algorithm_names = [ 'ESO', 'ABC','ACO', 'DE', 'GA', 'GWO', 'HHO', 'MFO', 'PSO', 'WOA', 'LSHADE', 'BBO', 'FPA', 'HS',  'SA', 'TS', 'HGS', 'HBA', 'EVO', 'BBOA', 'FLA']
-    # algorithm_names1 = ['ESO', 'ABC', 'BBOA', 'DE', 'FPA', 'HBA', 'HHO', 'LSHADE', 'MFO', 'PSO', 'WOA'] 
-    # algorithm_names = list(set(algorithm_names0)- set(algorithm_names1)) 
-    # algorithm_names = [ 'ESO']   
+    algorithm_names = [ 'ESO', 'ABC','ACO', 'DE', 'GA', 'GWO', 'HHO', 'MFO', 'PSO', 'WOA', 'LSHADE', 'BBO', 'FPA', 'HS',  'SA', 'TS', 'HGS', 'HBA', 'EVO', 'BBOA', 'FLA']    
     # Estructuras de datos para almacenar resultados acumulados
     history = {
         'Algorithm': [],
@@ -359,22 +267,21 @@ if __name__ == '__main__':
         'Best Score': [],
         'Accuracy': [],
         'Execution Time': [],
-        'Best Solution': [],
-                 
+        'Best Solution': [],                 
     }
 
-    # Ejecución de algoritmos en paralelo para cada función de prueba
+    # Ejecución paralela
     with concurrent.futures.ProcessPoolExecutor(max_workers=20) as executor:
         for _ in range(num_simulations):
             for test in test_functions:
-                func_name = test['name']  # Asegurar la correcta recopilación del nombre de la función
+                func_name = test['name']  
                 known_optimum = test['optimal']
                 futures = {executor.submit(run_algorithm, test, name): name for name in algorithm_names}
                 for future in concurrent.futures.as_completed(futures):
                     data = future.result()
                     distance = np.linalg.norm([known_optimum - data['best_score']])
                     accuracy = np.abs(1 /(1 + distance)) 
-                    alg_name = futures[future]  # Recuperar el nombre del algoritmo
+                    alg_name = futures[future]  
 
                     # Guardar los resultados en las listas correspondientes
                     history['Algorithm'].append(alg_name)
@@ -382,7 +289,7 @@ if __name__ == '__main__':
                     history['Best Score'].append(data['best_score'])                    
                     history['Accuracy'].append(accuracy)
                     history['Execution Time'].append(data['execution_time'])
-                    history['Best Solution'].append(str(data['best_solution']))  # Convertir soluciones a string para evitar problemas de formato                    
+                    history['Best Solution'].append(str(data['best_solution']))                      
 
                     # Imprimir el progreso
                     remaining_runs = len(test_functions) * num_simulations - (len(history['Algorithm']) // len(algorithm_names))
@@ -436,8 +343,7 @@ if __name__ == '__main__':
                     'Accuracy': accuracy,
                     'Success Ratio': success_ratio,
                     'Average Time': avg_time,                    
-                })  
-                
+                })                  
     
      # Crear DataFrame de pandas para los resultados procesados
     df_metrics = pd.DataFrame(performance_metrics)   
