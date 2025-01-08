@@ -1,5 +1,6 @@
-**Electrical Storm Optimization (ESO) Algorithm: Experimental Design Repository
-This repository contains the complete experimental framework and implementation of the Electrical Storm Optimization (ESO) algorithm, as presented in our paper "The Electrical Storm Optimization (ESO) Algorithm: Theoretical foundations, analysis, and application to engineering problems."**
+**Electrical Storm Optimization (ESO) Algorithm:Experimental Design Repository**
+
+This repository contains the complete experimental framework and implementation of the Electrical Storm Optimization (ESO) algorithm, as presented in our paper "The Electrical Storm Optimization (ESO) Algorithm: Theoretical foundations, analysis, and application to engineering problems.
 
 **The experimental validation includes:**
 25 primitive benchmark functions
