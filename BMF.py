@@ -619,11 +619,12 @@ class Leon:
     
 class LennardJones: ## OK
     name = 'Lennard Jones'
-    optimal = [-1.0, -3.0, -6.0, -9.103852, -12.712062,
-                       -16.505384, -19.821489, -24.113360, -28.422532,
-                       -32.765970, -37.967600, -44.326801, -47.845157,
-                       -52.322627, -56.815742, -61.317995, -66.530949,
-                       -72.659782, -77.1777043]
+    # optimal = [-1.0, -3.0, -6.0, -9.103852, -12.712062,
+    #                    -16.505384, -19.821489, -24.113360, -28.422532,
+    #                    -32.765970, -37.967600, -44.326801, -47.845157,
+    #                    -52.322627, -56.815742, -61.317995, -66.530949,
+    #                    -72.659782, -77.1777043]
+    optimal = -3.0
     bounds = (-4,4)
     type = 'multimodal'
 
@@ -1264,463 +1265,863 @@ class Zimmerman:
 
 ## Rotated and shifted functions
 
-class ShiftedSphere:
-    name = 'Shifted Sphere'
-    optimal = 0.0
-    bounds = (-100, 100)
+class ShiftedRotatedCigar:  ## OKK
+    name = 'Shifted Rotated Cigar'
+    optimal = 789.123
+    dimension = 25
     type = 'unimodal'
-    shift = np.array([5, 5])  # Desplazamiento
+    bounds = [
+        (-9.5, 10.5), (-8.7, 11.3), (-9.8, 10.2), (-8.4, 11.6), (-9.2, 10.8),
+        (-8.9, 11.1), (-9.6, 10.4), (-8.3, 11.7), (-9.9, 10.1), (-8.5, 11.5),
+        (-9.3, 10.7), (-8.8, 11.2), (-9.7, 10.3), (-8.2, 11.8), (-9.4, 10.6),
+        (-8.6, 11.4), (-9.1, 10.9), (-8.1, 11.9), (-9.0, 11.0), (-8.0, 12.0),
+        (-9.5, 10.5), (-8.7, 11.3), (-9.8, 10.2), (-8.4, 11.6), (-9.2, 10.8)
+    ]
+    
+    shift = np.array([4.2, -3.8, 5.1, -4.7, 3.5, -5.3, 4.8, -3.4, 5.5, -4.1,
+                     3.7, -5.6, 4.4, -3.9, 5.2, -4.5, 3.6, -5.4, 4.9, -3.3,
+                     4.2, -3.8, 5.1, -4.7, 3.5])
+    
+    # Matriz de rotación 25D usando composición de rotaciones
+    rotation_matrix = np.eye(25)
+    for i in range(24):
+        for j in range(i+1, 25):
+            theta = np.pi/4 + (i*j*np.pi/100)
+            R = np.eye(25)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
 
     @staticmethod
     def function(x):
-        shifted_x = x - ShiftedSphere.shift
-        return np.sum(shifted_x**2)
+        shifted_rotated_x = ShiftedRotatedCigar.rotation_matrix @ (x - ShiftedRotatedCigar.shift)
+        
+        # Función Cigar modificada
+        first_term = shifted_rotated_x[0]**2
+        other_terms = 1e6 * np.sum(shifted_rotated_x[1:]**2)
+        
+        # Añadir término oscilatorio para hacer la función más desafiante
+        oscillation = np.sum(np.sin(0.1 * np.pi * shifted_rotated_x))
+        
+        return first_term + other_terms + oscillation + 789.123
 
-class ShiftedAckley:
-    name = 'Shifted Ackley'
-    optimal = 0.0
-    bounds = (-32.768, 32.768)
+class ShiftedRotatedAckley01: ## OKK
+    name = 'Shifted Rotated Ackley 01'
+    optimal = -123.456
+    dimension = 30
     type = 'multimodal'
-    shift = np.array([3, 3])
+    bounds = [
+        (-32.768, 32.768) for _ in range(30)  # Límites estándar de Ackley para cada dimensión
+    ]
+    
+    shift = np.array([2.1, -1.7, 3.2, -2.8, 1.5, -3.4, 2.6, -1.9, 3.8, -2.3,
+                     1.8, -3.5, 2.9, -1.6, 3.7, -2.4, 1.4, -3.6, 2.7, -1.8,
+                     3.3, -2.5, 1.6, -3.3, 2.8, -1.5, 3.9, -2.2, 1.7, -3.7])
+    
+    # Matriz de rotación 30D usando una matriz ortogonal
+    rotation_matrix = np.random.randn(30, 30)
+    q, r = np.linalg.qr(rotation_matrix)
+    rotation_matrix = q
 
     @staticmethod
     def function(x):
-        shifted_x = x - ShiftedAckley.shift
-        return -20*np.exp(-0.2*np.sqrt(np.mean(shifted_x**2))) - \
-               np.exp(np.mean(np.cos(2*np.pi*shifted_x))) + 20 + np.e
+        shifted_rotated_x = ShiftedRotatedAckley01.rotation_matrix @ (x - ShiftedRotatedAckley01.shift)
+        
+        # Términos principales de Ackley
+        term1 = -20 * np.exp(-0.2 * np.sqrt(np.mean(shifted_rotated_x**2)))
+        term2 = -np.exp(np.mean(np.cos(2*np.pi*shifted_rotated_x)))
+        
+        # Términos adicionales para aumentar la dificultad
+        term3 = np.sum(np.sin(shifted_rotated_x/2)**2) / len(shifted_rotated_x)
+        term4 = np.sum(np.cos(shifted_rotated_x/3)**2) / len(shifted_rotated_x)
+        
+        return term1 + term2 + 20 + np.e + term3 + term4 - 123.456 
 
 
-class ShiftedRotatedRosenbrock:
-    name = 'Shifted Rotated Rosenbrock'
-    optimal = 0.0
-    bounds = (-2.048, 2.048)
-    type = 'unimodal'
-    shift = np.array([1, 1])
-    rotation_matrix = np.array([[np.cos(np.pi/6), -np.sin(np.pi/6)],
-                               [np.sin(np.pi/6), np.cos(np.pi/6)]])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedRosenbrock.rotation_matrix @ (x - ShiftedRotatedRosenbrock.shift)
-        return np.sum(100*(shifted_rotated_x[1:] - shifted_rotated_x[:-1]**2)**2 + (shifted_rotated_x[:-1] - 1)**2)
-
-class ShiftedRotatedSalomon:
-    name = 'Shifted Rotated Salomon'
-    optimal = 0.0
-    bounds = (-100, 100)
-    type = 'multimodal'
-    shift = np.array([4, 4])
-    rotation_matrix = np.array([[np.cos(np.pi/3), -np.sin(np.pi/3)],
-                               [np.sin(np.pi/3), np.cos(np.pi/3)]])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedSalomon.rotation_matrix @ (x - ShiftedRotatedSalomon.shift)
-        sqrt_sum = np.sqrt(np.sum(shifted_rotated_x**2))
-        return 1 - np.cos(2*np.pi*sqrt_sum) + 0.1*sqrt_sum
-
-class ShiftedRotatedAlpine:
-    name = 'Shifted Rotated Alpine'
-    optimal = 0.0
-    bounds = (-10, 10)
-    type = 'multimodal'
-    shift = np.array([2, 2])
-    rotation_matrix = np.array([[np.cos(np.pi/6), -np.sin(np.pi/6)],
-                               [np.sin(np.pi/6), np.cos(np.pi/6)]])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedAlpine.rotation_matrix @ (x - ShiftedRotatedAlpine.shift)
-        return np.sum(np.abs(shifted_rotated_x*np.sin(shifted_rotated_x) + 0.1*shifted_rotated_x))
-
-
-class ShiftedRotatedLevy:
-    name = 'Shifted Rotated Levy'
-    optimal = 0.0
-    bounds = (-10, 10)
-    type = 'multimodal'
-    shift = np.array([1, 1])
-    rotation_matrix = np.array([[np.cos(np.pi/3), -np.sin(np.pi/3)],
-                               [np.sin(np.pi/3), np.cos(np.pi/3)]])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedLevy.rotation_matrix @ (x - ShiftedRotatedLevy.shift)
-        w = 1 + (shifted_rotated_x - 1)/4
-        return np.sin(np.pi*w[0])**2 + \
-               np.sum((w[:-1]-1)**2 * (1 + 10*np.sin(np.pi*w[:-1] + 1)**2)) + \
-               (w[-1]-1)**2 * (1 + np.sin(2*np.pi*w[-1])**2)
-
-class ShiftedRotatedBohachevsky:
-    name = 'Shifted Rotated Bohachevsky'
-    optimal = 0.0
-    bounds = (-100, 100)
-    type = 'multimodal'
-    shift = np.array([2, 2])
-    rotation_matrix = np.array([[np.cos(np.pi/6), -np.sin(np.pi/6)],
-                               [np.sin(np.pi/6), np.cos(np.pi/6)]])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedBohachevsky.rotation_matrix @ (x - ShiftedRotatedBohachevsky.shift)
-        return shifted_rotated_x[0]**2 + 2*shifted_rotated_x[1]**2 - \
-               0.3*np.cos(3*np.pi*shifted_rotated_x[0]) - \
-               0.4*np.cos(4*np.pi*shifted_rotated_x[1]) + 0.7
-
-
-class ShiftedRotatedTrid:
-    name = 'Shifted Rotated Trid'
-    optimal = -1.0
-    bounds = (-4, 4)
-    type = 'unimodal'
-    shift = np.array([1, 1])
-    rotation_matrix = np.array([[np.cos(np.pi/4), -np.sin(np.pi/4)],
-                               [np.sin(np.pi/4), np.cos(np.pi/4)]])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedTrid.rotation_matrix @ (x - ShiftedRotatedTrid.shift)
-        return np.sum((shifted_rotated_x - 1)**2) - np.sum(shifted_rotated_x[1:] * shifted_rotated_x[:-1])
-
-class ShiftedZakharov:
-    name = 'Shifted Zakharov'
-    optimal = 0.0
-    bounds = (-10, 10)
-    type = 'unimodal'
-    shift = np.array([2, 2])
-
-    @staticmethod
-    def function(x):
-        shifted_x = x - ShiftedZakharov.shift
-        sum1 = np.sum(shifted_x**2)
-        sum2 = np.sum(0.5 * np.arange(1, len(x)+1) * shifted_x)
-        return sum1 + sum2**2 + sum2**4
-
-class ShiftedRotatedQing:
-    name = 'Shifted Rotated Qing'
-    optimal = 0.0
-    bounds = (-500, 500)
-    type = 'multimodal'
-    shift = np.array([3, 3])
-    rotation_matrix = np.array([[np.cos(np.pi/3), -np.sin(np.pi/3)],
-                               [np.sin(np.pi/3), np.cos(np.pi/3)]])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedQing.rotation_matrix @ (x - ShiftedRotatedQing.shift)
-        return np.sum((shifted_rotated_x**2 - np.arange(1, len(x)+1))**2)
-
-class ShiftedRotatedPowellSum:
-    name = 'Shifted Rotated Powell Sum'
-    optimal = 0.0
-    bounds = (-1, 1)
-    type = 'unimodal'
-    shift = np.array([0.5, 0.5])
-    rotation_matrix = np.array([[np.cos(np.pi/4), -np.sin(np.pi/4)],
-                               [np.sin(np.pi/4), np.cos(np.pi/4)]])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedPowellSum.rotation_matrix @ (x - ShiftedRotatedPowellSum.shift)
-        return np.sum(np.abs(shifted_rotated_x)**(np.arange(2, len(x)+2)))
-
-class ShiftedRotatedSchaffer:
+class ShiftedRotatedSchaffer: ## OKK
     name = 'Shifted Rotated Schaffer'
-    optimal = 0.0
-    bounds = (-100, 100)
+    optimal = 423.9229
+    dimension = 15
     type = 'multimodal'
-    shift = np.array([3, 3])
-    rotation_matrix = np.array([[np.cos(np.pi/3), -np.sin(np.pi/3)],
-                               [np.sin(np.pi/3), np.cos(np.pi/3)]])
+    bounds = [
+        (-80.5, 90.5), (-85.2, 85.8), (-75.8, 95.2), (-88.4, 82.6), (-72.6, 98.4),
+        (-82.9, 88.1), (-77.3, 93.7), (-87.6, 83.4), (-74.1, 96.9), (-89.8, 81.2),
+        (-76.5, 94.5), (-84.7, 86.3), (-79.2, 91.8), (-86.9, 84.1), (-73.4, 97.6)
+    ]
+    
+    shift = np.array([15.2, -12.8, 18.4, -14.7, 11.5, -19.3, 16.8, -13.4, 17.5, -11.1,
+                     13.7, -16.6, 14.4, -18.9, 12.2])
+    
+    # Matriz de rotación 15D usando rotaciones compuestas
+    rotation_matrix = np.eye(15)
+    for i in range(14):
+        for j in range(i+1, 15):
+            theta = np.pi/3 + (i*j*np.pi/30)
+            R = np.eye(15)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
 
     @staticmethod
     def function(x):
         shifted_rotated_x = ShiftedRotatedSchaffer.rotation_matrix @ (x - ShiftedRotatedSchaffer.shift)
-        num = np.sin(np.sqrt(shifted_rotated_x[0]**2 + shifted_rotated_x[1]**2))**2 - 0.5
-        den = (1 + 0.001*(shifted_rotated_x[0]**2 + shifted_rotated_x[1]**2))**2
-        return 0.5 + num/den
+        
+        # Versión modificada de Schaffer para alta dimensionalidad
+        sum_term = 0
+        for i in range(len(shifted_rotated_x)-1):
+            x_i = shifted_rotated_x[i]
+            x_next = shifted_rotated_x[i+1]
+            
+            inner_square = x_i**2 + x_next**2
+            sin_term = np.sin(np.sqrt(inner_square))**2 - 0.5
+            denominator = (1 + 0.001*inner_square)**2
+            
+            sum_term += 0.5 + sin_term/denominator
+        
+        # Término adicional para acoplar todas las dimensiones
+        coupling_term = np.sum(np.sin(np.sqrt(shifted_rotated_x**2 + np.roll(shifted_rotated_x, 1)**2)))
+        
+        return sum_term + 0.1*coupling_term + 421.7843
 
-class ShiftedBrent:
-    name = 'Shifted Brent'
-    optimal = 0.0
-    bounds = (-10, 10)
-    type = 'unimodal'
-    shift = np.array([2, 2])
-
-    @staticmethod
-    def function(x):
-        shifted_x = x - ShiftedBrent.shift
-        return (shifted_x[0] + 10)**2 + (shifted_x[1] + 10)**2 + np.exp(-shifted_x[0]**2 - shifted_x[1]**2)
-
-
-class ShiftedRotatedDiscus:
-    name = 'Shifted Rotated Discus'
-    optimal = 0.0
-    bounds = (-100, 100)
-    type = 'unimodal'
-    shift = np.array([2, 2])
-    rotation_matrix = np.array([[np.cos(np.pi/4), -np.sin(np.pi/4)],
-                               [np.sin(np.pi/4), np.cos(np.pi/4)]])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedDiscus.rotation_matrix @ (x - ShiftedRotatedDiscus.shift)
-        return 1e6*shifted_rotated_x[0]**2 + np.sum(shifted_rotated_x[1:]**2)
-
-
-class ShiftedBetaFunction:
-    name = 'Shifted Beta Function'
-    optimal = 0.0
-    bounds = (-100, 100)
-    type = 'unimodal'
-    shift = np.array([5, 5])
-
-    @staticmethod
-    def function(x):
-        shifted_x = x - ShiftedBetaFunction.shift
-        return np.sum(np.abs(shifted_x)) + np.prod(np.abs(shifted_x))
-
-class ShiftedRotatedTrigonometric:
-    name = 'Shifted Rotated Trigonometric'
-    optimal = 1.0
-    bounds = (-500, 500)
+class ShiftedRotatedRastrigin: ## OKK
+    name = 'Shifted Rotated Rastrigin'
+    optimal = 954.5044
+    dimension = 25
     type = 'multimodal'
-    shift = np.array([2, 2])
-    rotation_matrix = np.array([[np.cos(np.pi/6), -np.sin(np.pi/6)],
-                               [np.sin(np.pi/6), np.cos(np.pi/6)]])
+    bounds = [
+        (-5.12, 5.12) for _ in range(25)  # Límites estándar de Rastrigin
+    ]
+    
+    shift = np.array([2.1, -1.7, 2.4, -1.9, 2.2, -1.8, 2.3, -1.6, 2.5, -1.5,
+                     2.0, -1.4, 2.6, -1.3, 1.9, -1.2, 2.7, -1.1, 1.8, -1.0,
+                     2.8, -0.9, 1.7, -0.8, 2.9])
+    
+    # Matriz de rotación 25D usando composición de rotaciones
+    rotation_matrix = np.eye(25)
+    for i in range(24):
+        for j in range(i+1, 25):
+            theta = np.pi/4 + (i*j*np.pi/50)
+            R = np.eye(25)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
 
     @staticmethod
     def function(x):
-        shifted_rotated_x = ShiftedRotatedTrigonometric.rotation_matrix @ (x - ShiftedRotatedTrigonometric.shift)
-        n = len(x)
-        return 1 + np.sum([8 * np.sin(7*(shifted_rotated_x[i] - 0.9)**2)**2 + 
-                          6 * np.sin(14*(shifted_rotated_x[i] - 0.9)**2)**2 +
-                          (shifted_rotated_x[i] - 0.9)**2 for i in range(n)])
+        shifted_rotated_x = ShiftedRotatedRastrigin.rotation_matrix @ (x - ShiftedRotatedRastrigin.shift)
+        
+        # Versión modificada de Rastrigin
+        omega = 2*np.pi  # Frecuencia base
+        A = 10.0        # Amplitud
+        
+        # Término principal de Rastrigin con frecuencia variable
+        main_term = np.sum([
+            shifted_rotated_x[i]**2 - A*np.cos(omega*(i+1)*shifted_rotated_x[i]) 
+            for i in range(len(shifted_rotated_x))
+        ])
+        
+        # Término de acoplamiento entre dimensiones
+        coupling = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            for j in range(i+1, len(shifted_rotated_x)):
+                coupling += 0.2 * shifted_rotated_x[i] * shifted_rotated_x[j] * \
+                           np.sin(omega*np.sqrt(shifted_rotated_x[i]**2 + shifted_rotated_x[j]**2))
+        
+        return A*len(shifted_rotated_x) + main_term + coupling + 894.3215
 
-class ShiftedRotatedExpFunction:
-    name = 'Shifted Rotated Exponential Function'
-    optimal = -1
-    bounds = (-1, 1)
+class ShiftedRotatedZakharov: ## OKK
+    name = 'Shifted Rotated Zakharov'
+    optimal = 623.8295
+    dimension = 20
     type = 'unimodal'
-    shift = np.array([0.2, 0.2])
-    rotation_matrix = np.array([[np.cos(np.pi/4), -np.sin(np.pi/4)],
-                               [np.sin(np.pi/4), np.cos(np.pi/4)]])
+    bounds = [
+        (-10, 10), (-15, 5), (-5, 15), (-12, 8), (-8, 12),
+        (-11, 9), (-9, 11), (-13, 7), (-7, 13), (-14, 6),
+        (-6, 14), (-16, 4), (-4, 16), (-17, 3), (-3, 17),
+        (-18, 2), (-2, 18), (-19, 1), (-1, 19), (-20, 0)
+    ]
+    
+    shift = np.array([2.1, -1.7, 2.4, -1.9, 2.2, -1.8, 2.3, -1.6, 2.5, -1.5,
+                     2.0, -1.4, 2.6, -1.3, 1.9, -1.2, 2.7, -1.1, 1.8, -1.0])
+    
+    # Matriz de rotación 20D usando composición de rotaciones
+    rotation_matrix = np.eye(20)
+    for i in range(19):
+        for j in range(i+1, 20):
+            theta = np.pi/4 + (i*j*np.pi/40)
+            R = np.eye(20)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
 
     @staticmethod
     def function(x):
-        shifted_rotated_x = ShiftedRotatedExpFunction.rotation_matrix @ (x - ShiftedRotatedExpFunction.shift)
-        return -np.exp(-0.5 * np.sum(shifted_rotated_x**2))
+        shifted_rotated_x = ShiftedRotatedZakharov.rotation_matrix @ (x - ShiftedRotatedZakharov.shift)
+        
+        # Términos principales de Zakharov
+        sum1 = np.sum(shifted_rotated_x**2)
+        
+        # Término cuadrático modificado con pesos variables
+        weighted_sum = np.sum([0.5*(i+1)*shifted_rotated_x[i] for i in range(len(shifted_rotated_x))])
+        
+        # Término de acoplamiento
+        coupling = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            coupling += shifted_rotated_x[i] * shifted_rotated_x[i+1]
+        
+        return sum1 + weighted_sum**2 + weighted_sum**4 + 0.1*coupling + 623.8295
 
-class ShiftedBooth:
-    name = 'Shifted Booth'
-    optimal = 49.5  
-    bounds = (-10, 10)
+class ShiftedRotatedBrent: ## OKK
+    name = 'Shifted Rotated Brent'
+    optimal = -650.862696
+    dimension = 25
     type = 'unimodal'
-    shift = np.array([2, 3])  # El óptimo estará en (3,3) + shift = (5,6)
+    bounds = [
+        (-20, 20) for _ in range(25)
+    ]
+    
+    shift = np.array([3.2, -2.8, 3.4, -2.6, 3.6, -2.4, 3.8, -2.2, 4.0, -2.0,
+                     4.2, -1.8, 4.4, -1.6, 4.6, -1.4, 4.8, -1.2, 5.0, -1.0,
+                     5.2, -0.8, 5.4, -0.6, 5.6])
+    
+    # Matriz de rotación 25D usando una matriz ortogonal
+    rotation_matrix = np.random.randn(25, 25)
+    q, r = np.linalg.qr(rotation_matrix)
+    rotation_matrix = q
 
     @staticmethod
     def function(x):
-        shifted_x = x - ShiftedBooth.shift
-        return (shifted_x[0] + 2*shifted_x[1] - 7)**2 + (2*shifted_x[0] + shifted_x[1] - 5)**2 + 45
+        shifted_rotated_x = ShiftedRotatedBrent.rotation_matrix @ (x - ShiftedRotatedBrent.shift)
+        
+        # Versión modificada de Brent
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)):
+            sum_term += (shifted_rotated_x[i] + 10)**2
+        
+        # Término exponencial modificado
+        exp_term = np.exp(-np.sum(shifted_rotated_x**2)/len(shifted_rotated_x))
+        
+        # Término de acoplamiento entre dimensiones
+        coupling = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            coupling += np.abs(shifted_rotated_x[i] * shifted_rotated_x[i+1])
+        
+        return sum_term + exp_term + 0.1*coupling - 869.4567
 
-class ShiftedRotatedCrossInTray:
-    name = 'Shifted Rotated Cross-in-Tray'
-    optimal = -2.062611870825  
-    bounds = (-10, 10)
+class ShiftedRotatedSphere: ## OKK
+    name = 'Shifted Rotated Sphere'
+    optimal = 742.9183
+    dimension = 30
+    type = 'unimodal'
+    bounds = [
+        (-100, 100) for _ in range(30)
+    ]
+    
+    shift = np.array([10.2, -9.8, 10.4, -9.6, 10.6, -9.4, 10.8, -9.2, 11.0, -9.0,
+                     11.2, -8.8, 11.4, -8.6, 11.6, -8.4, 11.8, -8.2, 12.0, -8.0,
+                     12.2, -7.8, 12.4, -7.6, 12.6, -7.4, 12.8, -7.2, 13.0, -7.0])
+    
+    # Matriz de rotación 30D
+    rotation_matrix = np.random.randn(30, 30)
+    q, r = np.linalg.qr(rotation_matrix)
+    rotation_matrix = q
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedSphere.rotation_matrix @ (x - ShiftedRotatedSphere.shift)
+        
+        # Versión modificada de Sphere
+        weighted_sum = 0.0
+        for i in range(len(shifted_rotated_x)):
+            # Peso que aumenta con la dimensión
+            weight = 1 + 0.1 * i
+            weighted_sum += weight * shifted_rotated_x[i]**2
+        
+        # Término de interacción entre dimensiones consecutivas
+        interaction = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            interaction += shifted_rotated_x[i] * shifted_rotated_x[i+1]
+        
+        return weighted_sum + 0.05*interaction + 742.9183
+
+
+
+class ShiftedRotatedAlpine01: ## OKK
+    name = 'Shifted Rotated Alpine 01'
+    optimal = 478.9324
+    dimension = 20
     type = 'multimodal'
-    shift = np.array([3, 3])
-    rotation_matrix = np.array([[np.cos(np.pi/3), -np.sin(np.pi/3)],
-                               [np.sin(np.pi/3), np.cos(np.pi/3)]])
+    bounds = [
+        (-10, 10), (-15, 5), (-5, 15), (-12, 8), (-8, 12),
+        (-11, 9), (-9, 11), (-13, 7), (-7, 13), (-14, 6),
+        (-6, 14), (-16, 4), (-4, 16), (-17, 3), (-3, 17),
+        (-18, 2), (-2, 18), (-19, 1), (-1, 19), (-20, 0)
+    ]
+    
+    shift = np.array([2.1, -1.7, 2.4, -1.9, 2.2, -1.8, 2.3, -1.6, 2.5, -1.5,
+                     2.0, -1.4, 2.6, -1.3, 1.9, -1.2, 2.7, -1.1, 1.8, -1.0])
+    
+    # Matriz de rotación 20D usando composición de rotaciones
+    rotation_matrix = np.eye(20)
+    for i in range(19):
+        for j in range(i+1, 20):
+            theta = np.pi/4 + (i*j*np.pi/40)
+            R = np.eye(20)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedAlpine01.rotation_matrix @ (x - ShiftedRotatedAlpine01.shift)
+        
+        # Versión modificada de Alpine01
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)):
+            # Peso que aumenta con la dimensión
+            weight = 1 + 0.1 * i
+            sum_term += weight * np.abs(shifted_rotated_x[i] * np.sin(shifted_rotated_x[i]) + 0.1 * shifted_rotated_x[i])
+        
+        # Término de acoplamiento entre dimensiones
+        coupling = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            coupling += np.abs(shifted_rotated_x[i] * shifted_rotated_x[i+1] * 
+                             np.sin(shifted_rotated_x[i] + shifted_rotated_x[i+1]))
+        
+        return sum_term + 0.1*coupling + 478.9324
+
+class ShiftedRotatedEggCrate: ## OKK
+    name = 'Shifted Rotated Egg Crate'
+    optimal = -892.4567
+    dimension = 25
+    type = 'multimodal'
+    bounds = [
+        (-5, 5) for _ in range(25)
+    ]
+    
+    shift = np.array([1.2, -0.8, 1.4, -0.6, 1.6, -0.4, 1.8, -0.2, 2.0,
+                     -0.1, 2.2, 0.1, 2.4, 0.3, 2.6, 0.5, 2.8, 0.7, 3.0,
+                     0.9, 3.2, 1.1, 3.4, 1.3, 3.6])
+    
+    # Matriz de rotación 25D
+    rotation_matrix = np.random.randn(25, 25)
+    q, r = np.linalg.qr(rotation_matrix)
+    rotation_matrix = q
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedEggCrate.rotation_matrix @ (x - ShiftedRotatedEggCrate.shift)
+        
+        # Versión modificada de Egg Crate para alta dimensionalidad
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)):
+            sum_term += shifted_rotated_x[i]**2 + 2 * (np.sin(2*np.pi*shifted_rotated_x[i]))**2
+        
+        # Término de acoplamiento no lineal
+        coupling = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            coupling += np.sin(np.pi*(shifted_rotated_x[i] + shifted_rotated_x[i+1])) * \
+                       np.cos(np.pi*(shifted_rotated_x[i] - shifted_rotated_x[i+1]))
+        
+        return sum_term + coupling - 892.4567
+
+class ShiftedRotatedCrossInTray: ## OKK
+    name = 'Shifted Rotated Cross In Tray'
+    optimal = 537
+    dimension = 15
+    type = 'multimodal'
+    bounds = [
+        (-10, 10), (-12, 8), (-8, 12), (-11, 9), (-9, 11),
+        (-13, 7), (-7, 13), (-14, 6), (-6, 14), (-15, 5),
+        (-5, 15), (-16, 4), (-4, 16), (-17, 3), (-3, 17)
+    ]
+    
+    shift = np.array([2.1, -1.7, 2.4, -1.9, 2.2, -1.8, 2.3, -1.6, 2.5, -1.5,
+                     2.0, -1.4, 2.6, -1.3, 1.9])
+    
+    # Matriz de rotación 15D
+    rotation_matrix = np.eye(15)
+    for i in range(14):
+        for j in range(i+1, 15):
+            theta = np.pi/3 + (i*j*np.pi/30)
+            R = np.eye(15)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
 
     @staticmethod
     def function(x):
         shifted_rotated_x = ShiftedRotatedCrossInTray.rotation_matrix @ (x - ShiftedRotatedCrossInTray.shift)
-        return -0.0001*(np.abs(np.sin(shifted_rotated_x[0])*np.sin(shifted_rotated_x[1])*
-               np.exp(np.abs(100 - np.sqrt(shifted_rotated_x[0]**2 + shifted_rotated_x[1]**2)/np.pi))) + 1)**0.1
+        
+        # Versión modificada de Cross in Tray para alta dimensionalidad
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            term1 = np.abs(np.sin(shifted_rotated_x[i]) * np.sin(shifted_rotated_x[i+1]))
+            term2 = np.exp(np.abs(100 - np.sqrt(shifted_rotated_x[i]**2 + shifted_rotated_x[i+1]**2)/np.pi))
+            sum_term += -0.0001 * (np.abs(term1 * term2) + 1)**0.1
+        
+        # Término adicional de acoplamiento
+        coupling = np.sum([
+            np.sin(shifted_rotated_x[i] * shifted_rotated_x[i+1]) *
+            np.cos(shifted_rotated_x[i] + shifted_rotated_x[i+1])
+            for i in range(len(shifted_rotated_x)-1)
+        ])
+        
+        return sum_term + 0.1*coupling + 567.8912
 
-
-
-
-class ShiftedRotatedHimmelblau:
-    name = 'Shifted Rotated Himmelblau'
-    optimal = 15.0  
-    bounds = (-6, 6)
+class ShiftedRotatedLevy01: ## OKK
+    name = 'Shifted Rotated Levy 01'
+    optimal = -345.6789
+    dimension = 30
     type = 'multimodal'
-    dimension = 4  
-    shift = np.array([2, 3, 1, -1])  
-    # Matriz de rotación 4D usando rotaciones en múltiples planos
-    rotation_matrix = np.array([
-        [np.cos(np.pi/6), -np.sin(np.pi/6), 0, 0],
-        [np.sin(np.pi/6), np.cos(np.pi/6), 0, 0],
-        [0, 0, np.cos(np.pi/4), -np.sin(np.pi/4)],
-        [0, 0, np.sin(np.pi/4), np.cos(np.pi/4)]
-    ])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedHimmelblau.rotation_matrix @ (x - ShiftedRotatedHimmelblau.shift)
-        return np.sum([(shifted_rotated_x[i]**2 + shifted_rotated_x[i+1] - 11)**2 + 
-                      (shifted_rotated_x[i] + shifted_rotated_x[i+1]**2 - 7)**2 
-                      for i in range(0, len(x)-1, 2)]) + 15
-
-class ShiftedRotatedStyblinski: 
-    name = 'Shifted Rotated Styblinski-Tang'
-    optimal = -226.6807  
-    bounds = (-5, 5)
-    type = 'multimodal'
-    dimension = 5  # Dimensionalidad 5
-    shift = np.array([1, -1, 2, -2, 1.5])
-    # Matriz de rotación 5D
-    rotation_matrix = np.array([
-        [0.87, -0.22, 0.10, 0.25, 0.35],
-        [0.22, 0.80, -0.35, 0.15, -0.40],
-        [-0.10, 0.35, 0.90, -0.20, 0.15],
-        [-0.25, -0.15, 0.20, 0.85, -0.30],
-        [-0.35, 0.40, -0.15, 0.30, 0.75]
-    ])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedStyblinski.rotation_matrix @ (x - ShiftedRotatedStyblinski.shift)
-        return np.sum(shifted_rotated_x**4 - 16*shifted_rotated_x**2 + 5*shifted_rotated_x)/2 - 120
-
-class ShiftedRotatedMichalewicz:
-    name = 'Shifted Rotated Michalewicz'
-    optimal = 3.3831  
-    bounds = (0, np.pi)
-    type = 'multimodal'
-    dimension = 6  # 6 dimensiones
-    shift = np.array([np.pi/4, np.pi/3, np.pi/6, np.pi/2, 2*np.pi/3, np.pi/8])
-    # Matriz de rotación 6D
-    rotation_matrix = np.array([
-        [0.90, -0.15, 0.20, 0.10, -0.25, 0.15],
-        [0.15, 0.85, -0.20, 0.25, 0.10, -0.30],
-        [-0.20, 0.20, 0.80, -0.30, 0.15, 0.25],
-        [-0.10, -0.25, 0.30, 0.85, -0.20, 0.15],
-        [0.25, -0.10, -0.15, 0.20, 0.90, -0.25],
-        [-0.15, 0.30, -0.25, -0.15, 0.25, 0.85]
-    ])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedMichalewicz.rotation_matrix @ (x - ShiftedRotatedMichalewicz.shift)
-        m = 10  # Parámetro de definición de valles
-        return -np.sum(np.sin(shifted_rotated_x) * 
-                      np.sin((np.arange(1, len(x)+1) * shifted_rotated_x**2) / np.pi)**(2*m)) + 4.687
-
-class ShiftedRotatedYang:
-    name = 'Shifted Rotated Yang'
-    optimal = 32.85  
-    bounds = (-10, 10)
-    type = 'multimodal'
-    dimension = 8  # 8 dimensiones
-    shift = np.array([2, -2, 1, -1, 0.5, -0.5, 1.5, -1.5])
-    # Matriz de rotación 8D usando una matriz ortogonal
-    rotation_matrix = np.array([
-        [0.85, -0.15, 0.10, -0.20, 0.25, -0.10, 0.15, -0.05],
-        [0.15, 0.80, -0.25, 0.10, -0.15, 0.20, -0.10, 0.15],
-        [-0.10, 0.25, 0.85, -0.15, 0.10, -0.25, 0.15, -0.20],
-        [0.20, -0.10, 0.15, 0.80, -0.25, 0.10, -0.15, 0.25],
-        [-0.25, 0.15, -0.10, 0.25, 0.85, -0.15, 0.10, -0.20],
-        [0.10, -0.20, 0.25, -0.10, 0.15, 0.80, -0.25, 0.15],
-        [-0.15, 0.10, -0.15, 0.15, -0.10, 0.25, 0.85, -0.25],
-        [0.05, -0.15, 0.20, -0.25, 0.20, -0.15, 0.25, 0.80]
-    ])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedYang.rotation_matrix @ (x - ShiftedRotatedYang.shift)
-        return np.sum(np.abs(shifted_rotated_x)**np.arange(1, len(x)+1)) + 25
-
-class ShiftedRotatedPathological:
-    name = 'Shifted Rotated Pathological'
-    optimal = 75.0  
-    bounds = (-100, 100)
-    type = 'multimodal'
-    dimension = 7  # 7 dimensiones
-    shift = np.array([10, -10, 15, -15, 20, -20, 25])
-    # Matriz de rotación 7D
-    rotation_matrix = np.array([
-        [0.80, -0.20, 0.15, -0.25, 0.10, -0.15, 0.20],
-        [0.20, 0.85, -0.15, 0.10, -0.25, 0.15, -0.10],
-        [-0.15, 0.15, 0.80, -0.20, 0.25, -0.10, 0.15],
-        [0.25, -0.10, 0.20, 0.85, -0.15, 0.10, -0.25],
-        [-0.10, 0.25, -0.25, 0.15, 0.80, -0.20, 0.15],
-        [0.15, -0.15, 0.10, -0.10, 0.20, 0.85, -0.20],
-        [-0.20, 0.10, -0.15, 0.25, -0.15, 0.20, 0.80]
-    ])
-
-    @staticmethod
-    def function(x):
-        shifted_rotated_x = ShiftedRotatedPathological.rotation_matrix @ (x - ShiftedRotatedPathological.shift)
-        sum_term = 0
-        for i in range(len(x)-1):
-            numerator = np.sin(np.sqrt(100*shifted_rotated_x[i]**2 + shifted_rotated_x[i+1]**2))**2 - 0.5
-            denominator = 1 + 0.001*(shifted_rotated_x[i]**2 - 2*shifted_rotated_x[i]*shifted_rotated_x[i+1] + shifted_rotated_x[i+1]**2)**2
-            sum_term += 0.5 + numerator/denominator
-        return sum_term + 75
-
-class ShiftedRotatedMultiModal:
-    name = 'Shifted Rotated MultiModal'
-    optimal = 200.0  
-    bounds = (-50, 50)
-    type = 'multimodal'
-    dimension = 10  # 10 dimensiones
-    shift = np.array([5, -5, 10, -10, 15, -15, 20, -20, 25, -25])
-    # Matriz de rotación 10D (ortogonal)
-    rotation_matrix = np.random.rand(10, 10)  # Inicializamos con valores aleatorios
-    # Aplicamos el proceso de ortogonalización de Gram-Schmidt
+    bounds = [
+        (-10, 10) for _ in range(30)
+    ]
+    
+    shift = np.array([1.1, -0.9, 1.3, -0.7, 1.5, -0.5, 1.7, -0.3, 1.9, -0.1,
+                     2.1, 0.1, 2.3, 0.3, 2.5, 0.5, 2.7, 0.7, 2.9, 0.9,
+                     3.1, 1.1, 3.3, 1.3, 3.5, 1.5, 3.7, 1.7, 3.9, 1.9])
+    
+    # Matriz de rotación 30D
+    rotation_matrix = np.random.randn(30, 30)
     q, r = np.linalg.qr(rotation_matrix)
-    rotation_matrix = q  # Usamos la matriz ortogonal resultante
+    rotation_matrix = q
 
     @staticmethod
     def function(x):
-        shifted_rotated_x = ShiftedRotatedMultiModal.rotation_matrix @ (x - ShiftedRotatedMultiModal.shift)
-        alpha = 5
-        beta = 10
-        return np.sum(alpha * np.sin(beta * np.pi * shifted_rotated_x) * np.exp(-shifted_rotated_x**2)) + 200
+        shifted_rotated_x = ShiftedRotatedLevy01.rotation_matrix @ (x - ShiftedRotatedLevy01.shift)
+        
+        w = 1 + (shifted_rotated_x - 1) / 4
+        
+        # Término principal de Levy modificado
+        sum_term = np.sin(np.pi * w[0])**2
+        
+        # Términos intermedios con pesos variables
+        for i in range(len(shifted_rotated_x)-1):
+            weight = 1 + 0.1 * i  # Peso que aumenta con la dimensión
+            sum_term += weight * ((w[i]-1)**2 * (1 + 10*np.sin(np.pi*w[i] + 1)**2))
+        
+        # Término final
+        sum_term += (w[-1]-1)**2 * (1 + np.sin(2*np.pi*w[-1])**2)
+        
+        # Término de acoplamiento entre dimensiones
+        coupling = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            coupling += np.sin(np.pi * (w[i] + w[i+1])) * \
+                       np.cos(np.pi * (w[i] - w[i+1]))
+        
+        return sum_term + 0.1*coupling - 345.6789     
 
-class ShiftedRotatedComposite:
-    name = 'Shifted Rotated Composite'
-    optimal = 150.0  
-    bounds = (-30, 30)
+
+class ShiftedRotatedBooth: ## OKK
+    name = 'Shifted Rotated Booth'
+    optimal = 859.886
+    dimension = 20
     type = 'multimodal'
-    dimension = 12  # 12 dimensiones
-    shift = np.array([3, -3, 6, -6, 9, -9, 12, -12, 15, -15, 18, -18])
-    # Matriz de rotación 12D usando una composición de rotaciones
-    rotation_matrix = np.eye(12)  
-    for i in range(11):
-        # Aplicamos rotaciones sucesivas en planos diferentes
-        theta = np.pi / (i + 2)
-        R = np.eye(12)
-        R[i,i] = np.cos(theta)
-        R[i,i+1] = -np.sin(theta)
-        R[i+1,i] = np.sin(theta)
-        R[i+1,i+1] = np.cos(theta)
-        rotation_matrix = R @ rotation_matrix
+    bounds = [
+        (-10, 10), (-12, 8), (-8, 12), (-11, 9), (-9, 11),
+        (-13, 7), (-7, 13), (-14, 6), (-6, 14), (-15, 5),
+        (-5, 15), (-16, 4), (-4, 16), (-17, 3), (-3, 17),
+        (-18, 2), (-2, 18), (-19, 1), (-1, 19), (-20, 0)
+    ]
+    
+    shift = np.array([2.1, -1.7, 2.4, -1.9, 2.2, -1.8, 2.3, -1.6, 2.5, -1.5,
+                     2.0, -1.4, 2.6, -1.3, 1.9, -1.2, 2.7, -1.1, 1.8, -1.0])
+    
+    # Matriz de rotación 20D usando composición de rotaciones
+    rotation_matrix = np.eye(20)
+    for i in range(19):
+        for j in range(i+1, 20):
+            theta = np.pi/4 + (i*j*np.pi/40)
+            R = np.eye(20)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
 
     @staticmethod
     def function(x):
-        shifted_rotated_x = ShiftedRotatedComposite.rotation_matrix @ (x - ShiftedRotatedComposite.shift)
-        # Combinamos diferentes términos para crear una función compuesta
-        sphere_term = np.sum(shifted_rotated_x**2)
-        rastrigin_term = np.sum(shifted_rotated_x**2 - 10*np.cos(2*np.pi*shifted_rotated_x) + 10)
-        weierstrass_term = np.sum([-np.cos(2*np.pi*3**k*shifted_rotated_x)/2**k for k in range(5)])
+        shifted_rotated_x = ShiftedRotatedBooth.rotation_matrix @ (x - ShiftedRotatedBooth.shift)
         
-        return (sphere_term/4000 + rastrigin_term/400 + weierstrass_term/40) + 150
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            # Términos de Booth modificados
+            term1 = (shifted_rotated_x[i] + 2*shifted_rotated_x[i+1] - 7)**2
+            term2 = (2*shifted_rotated_x[i] + shifted_rotated_x[i+1] - 5)**2
+            # Factor de peso que aumenta con la dimensión
+            weight = 1 + 0.1*i
+            sum_term += weight * (term1 + term2)
         
+        # Término de acoplamiento no lineal
+        coupling = 0.0
+        for i in range(len(shifted_rotated_x)-2):
+            coupling += np.sin(np.pi*(shifted_rotated_x[i] + shifted_rotated_x[i+1] + shifted_rotated_x[i+2]))
         
+        return sum_term + 0.1*coupling + 789.1234
+
+class ShiftedRotatedTrid: ## OKK
+    name = 'Shifted Rotated Trid'
+    optimal = -560.2633
+    dimension = 25
+    type = 'unimodal'
+    bounds = [
+        (-25, 25) for _ in range(25)
+    ]
+    
+    shift = np.array([3.2, -2.8, 3.4, -2.6, 3.6, -2.4, 3.8, -2.2, 4.0, -2.0,
+                     4.2, -1.8, 4.4, -1.6, 4.6, -1.4, 4.8, -1.2, 5.0, -1.0,
+                     5.2, -0.8, 5.4, -0.6, 5.6])
+    
+    # Matriz de rotación 25D
+    rotation_matrix = np.random.randn(25, 25)
+    q, r = np.linalg.qr(rotation_matrix)
+    rotation_matrix = q
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedTrid.rotation_matrix @ (x - ShiftedRotatedTrid.shift)
+        
+        # Primer término modificado con pesos
+        sum_squared = 0.0
+        for i in range(len(shifted_rotated_x)):
+            weight = 1 + 0.05*i
+            sum_squared += weight * (shifted_rotated_x[i] - 1)**2
+        
+        # Segundo término modificado con acoplamiento
+        sum_product = 0.0
+        for i in range(1, len(shifted_rotated_x)):
+            sum_product += shifted_rotated_x[i] * shifted_rotated_x[i-1] * (1 + 0.1*np.sin(np.pi*i/len(shifted_rotated_x)))
+        
+        return sum_squared - sum_product - 456.7891
+
+class ShiftedRotatedRosenbrock:## OKK
+    name = 'Shifted Rotated Rosenbrock'
+    optimal = 943.4567
+    dimension = 30
+    type = 'multimodal'
+    bounds = [
+        (-30, 30) for _ in range(30)
+    ]
+    
+    shift = np.array([4.1, -3.9, 4.2, -3.8, 4.3, -3.7, 4.4, -3.6, 4.5, -3.5,
+                     4.6, -3.4, 4.7, -3.3, 4.8, -3.2, 4.9, -3.1, 5.0, -3.0,
+                     5.1, -2.9, 5.2, -2.8, 5.3, -2.7, 5.4, -2.6, 5.5, -2.5])
+    
+    # Matriz de rotación 30D
+    rotation_matrix = np.eye(30)
+    for i in range(29):
+        for j in range(i+1, 30):
+            theta = np.pi/6 + (i*j*np.pi/60)
+            R = np.eye(30)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedRosenbrock.rotation_matrix @ (x - ShiftedRotatedRosenbrock.shift)
+        
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            # Factor de peso que aumenta con la dimensión
+            weight = 1 + 0.1*i
+            # Términos de Rosenbrock modificados
+            term1 = 100 * weight * (shifted_rotated_x[i+1] - shifted_rotated_x[i]**2)**2
+            term2 = (shifted_rotated_x[i] - 1)**2
+            sum_term += term1 + term2
+        
+        # Término de acoplamiento adicional
+        coupling = np.sum([
+            np.sin(np.pi * shifted_rotated_x[i] * shifted_rotated_x[i+1])
+            for i in range(len(shifted_rotated_x)-1)
+        ])
+        
+        return sum_term + 0.1*coupling + 923.4567
+
+class ShiftedRotatedPowellSum: ## OKK
+    name = 'Shifted Rotated Powell Sum'
+    optimal = -234.5678
+    dimension = 20
+    type = 'unimodal'
+    bounds = [
+        (-4, 5), (-5, 4), (-3, 6), (-6, 3), (-2, 7),
+        (-7, 2), (-1, 8), (-8, 1), (0, 9), (-9, 0),
+        (-3, 6), (-6, 3), (-2, 7), (-7, 2), (-1, 8),
+        (-8, 1), (0, 9), (-9, 0), (-4, 5), (-5, 4)
+    ]
+    
+    shift = np.array([1.1, -0.9, 1.2, -0.8, 1.3, -0.7, 1.4, -0.6, 1.5, -0.5,
+                     1.6, -0.4, 1.7, -0.3, 1.8, -0.2, 1.9, -0.1, 2.0, 0.0])
+    
+    # Matriz de rotación 20D
+    rotation_matrix = np.random.randn(20, 20)
+    q, r = np.linalg.qr(rotation_matrix)
+    rotation_matrix = q
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedPowellSum.rotation_matrix @ (x - ShiftedRotatedPowellSum.shift)
+        
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)):
+            # Exponente que varía con la dimensión
+            exponent = 2 + i/5
+            # Factor de peso que aumenta con la dimensión
+            weight = 1 + 0.05*i
+            sum_term += weight * np.abs(shifted_rotated_x[i])**exponent
+        
+        # Término de acoplamiento no lineal
+        coupling = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            coupling += np.abs(shifted_rotated_x[i])**(1.5) * np.abs(shifted_rotated_x[i+1])**(1.5)
+        
+        return sum_term + 0.1*coupling - 234.5678   
+
+
+class ShiftedRotatedDolan: ## OKK
+    name = 'Shifted Rotated Dolan'
+    optimal = -331
+    dimension = 20
+    type = 'multimodal'
+    bounds = [
+        (-100, 100) for _ in range(20)
+    ]
+    
+    shift = np.array([5.1, -4.7, 5.4, -4.4, 5.7, -4.1, 6.0, -3.8, 6.3, -3.5,
+                     6.6, -3.2, 6.9, -2.9, 7.2, -2.6, 7.5, -2.3, 7.8, -2.0])
+    
+    # Matriz de rotación 20D
+    rotation_matrix = np.random.randn(20, 20)
+    q, r = np.linalg.qr(rotation_matrix)
+    rotation_matrix = q
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedDolan.rotation_matrix @ (x - ShiftedRotatedDolan.shift)
+        
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            # Factor de peso que aumenta con la dimensión
+            weight = 1 + 0.05*i
+            # Términos base de Dolan modificados
+            x_i = shifted_rotated_x[i]
+            x_next = shifted_rotated_x[i+1]
+            
+            term1 = (x_i + 1.5*x_next - 2)**2
+            term2 = (x_i + x_next - 1)**2
+            term3 = np.abs(x_i * x_next + 1)
+            
+            sum_term += weight * (term1 + term2 + term3)
+        
+        # Término de acoplamiento adicional
+        coupling = np.sum([
+            np.sin(np.pi * shifted_rotated_x[i] / (i+1)) *
+            np.cos(np.pi * shifted_rotated_x[i+1] / (i+1))
+            for i in range(len(shifted_rotated_x)-1)
+        ])
+        
+        return sum_term + 0.1*coupling - 345.6789
+
+class ShiftedRotatedPrice02: ## OKK
+    name = 'Shifted Rotated Price 02'
+    optimal = 948.35
+    dimension = 25
+    type = 'multimodal'
+    bounds = [
+        (-10, 10), (-15, 5), (-5, 15), (-12, 8), (-8, 12),
+        (-11, 9), (-9, 11), (-13, 7), (-7, 13), (-14, 6),
+        (-6, 14), (-16, 4), (-4, 16), (-17, 3), (-3, 17),
+        (-18, 2), (-2, 18), (-19, 1), (-1, 19), (-20, 0),
+        (-10, 10), (-15, 5), (-5, 15), (-12, 8), (-8, 12)
+    ]
+    
+    shift = np.array([2.1, -1.7, 2.4, -1.9, 2.2, -1.8, 2.3, -1.6, 2.5, -1.5,
+                     2.0, -1.4, 2.6, -1.3, 1.9, -1.2, 2.7, -1.1, 1.8, -1.0,
+                     2.8, -0.9, 1.7, -0.8, 2.9])
+    
+    # Matriz de rotación 25D
+    rotation_matrix = np.eye(25)
+    for i in range(24):
+        for j in range(i+1, 25):
+            theta = np.pi/4 + (i*j*np.pi/50)
+            R = np.eye(25)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedPrice02.rotation_matrix @ (x - ShiftedRotatedPrice02.shift)
+        
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            # Factor de peso que aumenta con la dimensión
+            weight = 1 + 0.1*i
+            # Términos base de Price 02 modificados
+            term = 1 + np.sin(np.sin(shifted_rotated_x[i]))**2 + \
+                  0.1 * np.exp(((shifted_rotated_x[i]**2 + shifted_rotated_x[i+1]**2)/50))
+            sum_term += weight * term
+        
+        # Término de acoplamiento no lineal
+        coupling = np.sum([
+            np.sin(shifted_rotated_x[i]**2) * np.cos(shifted_rotated_x[i+1]**2)
+            for i in range(len(shifted_rotated_x)-1)
+        ])
+        
+        return sum_term + 0.1*coupling + 891.2345
+    
+    
+class ShiftedRotatedCorana: ## OKK
+    name = 'Shifted Rotated Corana'
+    optimal = 456.7891
+    dimension = 20
+    type = 'multimodal'
+    bounds = [
+        (-500, 500), (-450, 550), (-550, 450), (-475, 525), (-525, 475),
+        (-480, 520), (-520, 480), (-460, 540), (-540, 460), (-490, 510),
+        (-510, 490), (-470, 530), (-530, 470), (-485, 515), (-515, 485),
+        (-495, 505), (-505, 495), (-465, 535), (-535, 465), (-488, 512)
+    ]
+    
+    shift = np.array([20.1, -19.7, 20.4, -19.4, 20.7, -19.1, 21.0, -18.8, 21.3, -18.5,
+                     21.6, -18.2, 21.9, -17.9, 22.2, -17.6, 22.5, -17.3, 22.8, -17.0])
+    
+    # Matriz de rotación 20D
+    rotation_matrix = np.eye(20)
+    for i in range(19):
+        for j in range(i+1, 20):
+            theta = np.pi/4 + (i*j*np.pi/40)
+            R = np.eye(20)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedCorana.rotation_matrix @ (x - ShiftedRotatedCorana.shift)
+        
+        d = np.array([1, 1000, 10, 100] * 5)  # Extendido para 20D
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)):
+            z = 0.2 * np.floor(np.abs(shifted_rotated_x[i]/0.2) + 0.5) * np.sign(shifted_rotated_x[i])
+            if np.abs(shifted_rotated_x[i] - z) < 0.2:
+                sum_term += 0.15 * (z - 0.05*np.sign(z))**2 * d[i]
+            else:
+                sum_term += d[i] * shifted_rotated_x[i]**2
+        
+        # Término de acoplamiento
+        coupling = np.sum([
+            np.sin(shifted_rotated_x[i] * shifted_rotated_x[i+1] / 100)
+            for i in range(len(shifted_rotated_x)-1)
+        ])
+        
+        return sum_term + 0.1*coupling + 456.7891
+
+class ShiftedRotatedCsendes: ## OKK
+    name = 'Shifted Rotated Csendes'
+    optimal = -789.1234
+    dimension = 25
+    type = 'multimodal'
+    bounds = [
+        (-2, 2) for _ in range(25)
+    ]
+    
+    shift = np.array([0.21, -0.17, 0.24, -0.19, 0.22, -0.18, 0.23, -0.16, 0.25, -0.15,
+                     0.20, -0.14, 0.26, -0.13, 0.19, -0.12, 0.27, -0.11, 0.18, -0.10,
+                     0.28, -0.09, 0.17, -0.08, 0.29])
+    
+    # Matriz de rotación 25D
+    rotation_matrix = np.random.randn(25, 25)
+    q, r = np.linalg.qr(rotation_matrix)
+    rotation_matrix = q
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedCsendes.rotation_matrix @ (x - ShiftedRotatedCsendes.shift)
+        
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)):
+            # Factor de peso que aumenta con la dimensión
+            weight = 1 + 0.05*i
+            if shifted_rotated_x[i] != 0:
+                term = weight * (shifted_rotated_x[i]**6 * (2 + np.sin(1/shifted_rotated_x[i])))
+                sum_term += term
+        
+        # Término de acoplamiento no lineal
+        coupling = np.sum([
+            np.sin(shifted_rotated_x[i]**2 + shifted_rotated_x[i+1]**2)
+            for i in range(len(shifted_rotated_x)-1)
+        ])
+        
+        return sum_term + 0.1*coupling - 789.1234
+
+class ShiftedRotatedDamavandi: ## OKK
+    name = 'Shifted Rotated Damavandi'
+    optimal = 266.4165
+    dimension = 15
+    type = 'multimodal'
+    bounds = [
+        (-10, 10) for _ in range(15)
+    ]
+    
+    shift = np.array([2.1, -1.7, 2.4, -1.9, 2.2, -1.8, 2.3, -1.6, 2.5, -1.5,
+                     2.0, -1.4, 2.6, -1.3, 1.9])
+    
+    # Matriz de rotación 15D
+    rotation_matrix = np.eye(15)
+    for i in range(14):
+        for j in range(i+1, 15):
+            theta = np.pi/3 + (i*j*np.pi/30)
+            R = np.eye(15)
+            R[i,i] = np.cos(theta)
+            R[i,j] = -np.sin(theta)
+            R[j,i] = np.sin(theta)
+            R[j,j] = np.cos(theta)
+            rotation_matrix = R @ rotation_matrix
+
+    @staticmethod
+    def function(x):
+        shifted_rotated_x = ShiftedRotatedDamavandi.rotation_matrix @ (x - ShiftedRotatedDamavandi.shift)
+        
+        sum_term = 0.0
+        for i in range(len(shifted_rotated_x)-1):
+            # Términos base de Damavandi modificados
+            x_i = shifted_rotated_x[i]
+            x_next = shifted_rotated_x[i+1]
+            
+            num = np.sin(np.pi*(x_i - 2))*np.sin(np.pi*(x_next - 2))
+            den = (np.pi**2)*(x_i - 2)*(x_next - 2)
+            
+            term1 = (1 - np.abs(num/den if den != 0 else 1))**5
+            term2 = 2 + (x_i - 7)**2 + 2*(x_next - 7)**2
+            
+            sum_term += term1 * term2
+        
+        # Término de acoplamiento trigonométrico
+        coupling = np.sum([
+            np.cos(shifted_rotated_x[i] * np.pi/2) * np.sin(shifted_rotated_x[i+1] * np.pi/2)
+            for i in range(len(shifted_rotated_x)-1)
+        ])
+        
+        return sum_term + 0.1*coupling + 234.5678
+
+
