@@ -224,7 +224,7 @@ class CEC2021_RWCMO_5:
 
 class CEC2021_RWCMO_6:
     name = "Speed Reducer Design Problem"
-    optimal = 0  # Valor optimo desconocido
+    optimal = 0  # Si el valor óptimo es desconocido
     bounds = [(2.6, 3.6), (0.7, 0.8), (17, 28), (7.3, 8.3), (7.8, 8.3), (2.9, 3.9), (5, 5.5)]
     
     @staticmethod
@@ -279,7 +279,8 @@ class CEC2021_RWCMO_7:
 
 class CEC2021_RWCMO_8:
     name = "Car Side Impact Design Problem"
-    optimal = 0  # Valor optimo desconocido
+    optimal = 0  # Si el valor óptimo es desconocido
+    # Asumiendo límites para x1 a x7, ajustar según sea necesario
     bounds = [(0.5, 1.5), (0.45, 1.35), (0.5, 1.5), (0.5, 1.5), (0.875, 2.625), (0.4, 1.2), (0.4, 1.2)]
     
     @staticmethod
@@ -411,7 +412,7 @@ class CEC2021_RWCMO_11:
 
 class CEC2021_RWCMO_12:
     name = "Simply Supported I-beam Design"
-    optimal = 0  
+    optimal = 0  # Si el valor óptimo es desconocido o no aplicable
     bounds = [(10, 80), (10, 50), (0.9, 5), (0.9, 5)]  # Ejemplo de límites, ajustar según sea necesario
 
     @staticmethod
@@ -435,7 +436,7 @@ class CEC2021_RWCMO_12:
 
 class CEC2021_RWCMO_13:
     name = "Gear Box Design"
-    optimal = 0 
+    optimal = 0  # Si el valor óptimo es desconocido o no aplicable
     bounds = [(2.6, 3.6), (0.7, 0.8), (17, 28), (7.3, 8.3), (7.8, 8.3), (2.9, 3.9), (5.0, 5.5)]  # Ejemplo de límites
 
     @staticmethod
@@ -507,7 +508,7 @@ class CEC2021_RWCMO_14:
 
 class CEC2021_RWCMO_15:
     name = "Spring Design Problem"
-    optimal = 0 
+    optimal = 0  # Si el valor óptimo es desconocido o no aplicable
     bounds = [(1, 70), (0.6, 3), (1, 42)]  # Ejemplo de límites
 
     @staticmethod
@@ -551,7 +552,7 @@ class CEC2021_RWCMO_15:
     
 class CEC2021_RWCMO_16:
     name = "Cantilever Beam Design Problem"
-    optimal = 0  
+    optimal = 0  # Si se desconoce el valor óptimo o no es aplicable
     bounds = [(0.01, 0.05), (0.20, 1)]  
     
     @staticmethod
@@ -591,16 +592,17 @@ class CEC2021_RWCMO_16:
 
 class CEC2021_RWCMO_17:
     name = "Bulk Carriers Design Problem"
-    optimal = 0  
-    bounds = [(150, 274.32),  
-              (20, 32.31),   
-              (13, 25),    
-              (10, 11.71),     
-              (14, 18),    
-              (0.63, 0.75)] 
+    optimal = 0  # Si se desconoce el valor óptimo o no es aplicable
+    bounds = [(150, 274.32),  # Suposiciones de límites para L
+              (20, 32.31),    # Suposiciones de límites para B
+              (13, 25),    # Suposiciones de límites para D
+              (10, 11.71),     # Suposiciones de límites para T
+              (14, 18),    # Suposiciones de límites para V_k
+              (0.63, 0.75)] # Suposiciones de límites para C_B
     
     @staticmethod
     def function(x):
+        # Asegurarse que x tiene la forma adecuada para las operaciones
         x = np.atleast_2d(x)
         
         # Extraer variables
@@ -655,13 +657,14 @@ class CEC2021_RWCMO_17:
 
 class CEC2021_RWCMO_18:
     name = "Front Rail Design Problem"
-    optimal = 0 
-    bounds = [(136, 146),  
-              (58, 68),   
-              (1.4, 2.2)]  
+    optimal = 0  # Si se desconoce el valor óptimo o no es aplicable
+    bounds = [(136, 146),  # Suposiciones de límites para hh
+              (58, 68),    # Suposiciones de límites para w
+              (1.4, 2.2)]  # Suposiciones de límites para t
     
     @staticmethod
     def function(x):
+        # Asegurarse que x tiene la forma adecuada para las operaciones
         x = np.atleast_2d(x)
         
         # Extraer variables
@@ -696,7 +699,7 @@ class CEC2021_RWCMO_18:
 class CEC2021_RWCMO_20:
     name = "Hydro-static Thrust Bearing Design Problem"
     optimal =  1.6254428092 * 10e+03
-    bounds = [(1, 16), (1, 16), (10e-6, 16*10e-6), (1, 16)]  
+    bounds = [(1, 16), (1, 16), (10e-6, 16*10e-6), (1, 16)]  # Ejemplo de límites para R, Ro, mu, Q
 
     @staticmethod
     def function(x):
@@ -799,7 +802,7 @@ class CEC2021_RWCMO_21:
 class CEC2021_RWCMO_22:
     ####Implementation checked####
     name = "Haverly's Pooling Problem"
-    optimal = -4.0000560000 * 10e+02
+    optimal = -4.0000560000 * 10e+02# Si se desconoce el valor óptimo o no es aplicable
     bounds = [(0, 100), (0, 200), (0, 100), (0, 100), (0, 100), (0, 100), (0, 200), (0, 100), (0, 200)]
 
     @staticmethod
@@ -831,7 +834,7 @@ class CEC2021_RWCMO_22:
 class CEC2021_RWCMO_23:
     #### Implementation cheked####
     name = "Reactor Network Design"
-    optimal = -3.8826043623 * 10e-01
+    optimal = -3.8826043623 * 10e-01 # Si el valor óptimo es desconocido o no aplicable
     bounds = [(0, 1), (0, 1), (0, 1), (0, 1), (0.00001, 16), (0.00001, 16)]
     k1 = 0.09755988
     k2 = 0.99 * k1
@@ -1105,7 +1108,7 @@ class CEC2021_RWCMO_29:
 class CEC2021_RWCMO_30:
     name = "SOPWM for 3-level Inverters"
     optimal = 3.8029250566 * 10e-02
-    bounds = [(0, np.pi / 2)] * 10  
+    bounds = [(0, np.pi / 2)] * 10  # Suposición de 10 ángulos de conmutación como ejemplo
 
     @staticmethod
     def function(x):
@@ -1141,7 +1144,8 @@ class CEC2021_RWCMO_30:
 class CEC2021_RWCMO_31:
     name = "SOPWM for 5-level Inverters"
     optimal = 2.1215000000 * 10e-02
-    bounds = [(0, np.pi / 2) for _ in range(25)]  
+    # Los límites deberían ser adecuados para el rango de ángulos que se utilizan en los cálculos de coseno
+    bounds = [(0, np.pi / 2) for _ in range(25)]  # Ejemplo de límites para cada variable de fase
 
     @staticmethod
     def function(x):
@@ -1182,8 +1186,9 @@ class CEC2021_RWCMO_31:
 
 class CEC2021_RWCMO_32:
     name = "SOPWM for 7-level Inverters"
-    optimal = 1.5164538375 * 10e-02    
-    bounds = [(0, np.pi / 2) for _ in range(25)]  
+    optimal = 1.5164538375 * 10e-02
+    # Los límites deberían ser adecuados para el rango de ángulos que se utilizan en los cálculos de coseno
+    bounds = [(0, np.pi / 2) for _ in range(25)]  # Ejemplo de límites para cada variable de fase
 
     @staticmethod
     def function(x):
@@ -1223,8 +1228,9 @@ class CEC2021_RWCMO_32:
 
 class CEC2021_RWCMO_33:
     name = "SOPWM for 9-level Inverters"
-    optimal =  1.6787535766 * 10e-02    
-    bounds = [(0, np.pi / 2) for _ in range(30)]  
+    optimal =  1.6787535766 * 10e-02
+    # Los límites deberían ser adecuados para el rango de ángulos que se utilizan en los cálculos de coseno
+    bounds = [(0, np.pi / 2) for _ in range(30)]  # Ejemplo de límites para cada variable de fase
 
     @staticmethod
     def function(x):
@@ -1264,8 +1270,9 @@ class CEC2021_RWCMO_33:
 
 class CEC2021_RWCMO_34:
     name = "SOPWM for 11-level Inverters"
-    optimal = 9.3118741800 * 10e-03   
-    bounds = [(0, np.pi / 2) for _ in range(30)] 
+    optimal = 9.3118741800 * 10e-03
+    # Los límites deberían ser adecuados para el rango de ángulos que se utilizan en los cálculos de coseno
+    bounds = [(0, np.pi / 2) for _ in range(30)]  # Ejemplo de límites para cada variable de fase
 
     @staticmethod
     def function(x):
@@ -1305,13 +1312,14 @@ class CEC2021_RWCMO_34:
 
 class CEC2021_RWCMO_35:
     name = "SOPWM for 13-level Inverters"
-    optimal = 1.5096451396 * 10e-02   
-    bounds = [(0, np.pi / 2)] * 30 
+    optimal = 1.5096451396 * 10e-02
+    # Supongamos que los límites de las variables son entre 0 y 180 grados
+    bounds = [(0, np.pi / 2)] * 30  # Ajustar según la necesidad, suponiendo que D es 30
 
     @staticmethod
     def function(x):
         # Convertir x a array de numpy si aún no lo es
-        x = np.atleast_2d(x) 
+        x = np.atleast_2d(x)  # Esto asegura que x tenga al menos dos dimensiones
         
         m = 0.32
         s = np.array([1, 1, 1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, -1, -1, 1, -1, 1, -1, 1, 1, 1, 1, -1, -1, -1, 1, -1, 1])
@@ -1331,7 +1339,7 @@ class CEC2021_RWCMO_35:
 class CEC2021_RWCMO_36:
     name = "Optimal Sizing of Single Phase Distributed Generation"
     optimal = 0  # Valor óptimo desconocido
-    bounds = [(0, 1)] * 24 + [(-1, 1)] * 4 
+    bounds = [(0, 1)] * 24 + [(-1, 1)] * 4  # Límites para las variables de voltaje y generación
 
     @staticmethod
     def function(x):
@@ -1561,7 +1569,8 @@ class CEC2021_RWCMO_37:
 
 class CEC2021_RWCMO_46:
     name = "Optimal Power flow (Minimization of Fuel Cost, voltage deviation, active and reactive power loss)"
-    optimal = 0  # Valor óptimo desconocido    
+    optimal = 0  # Valor óptimo desconocido
+    # Asumiendo que las decisiones incluyen tensiones reales e imaginarias, y generaciones de P y Q en ciertos nodos
     bounds = [(-1, 1)] * 26 + [(0, 10)] * 4  # Ajustar según las necesidades reales de los límites de voltaje y generación
 
     @staticmethod
@@ -1766,7 +1775,7 @@ class CEC2021_RWCMO_51:
 class CEC2021_RWCMO_52:    
     name = "Knapsack Problem"
     optimal = 0  # Valor óptimo desconocido
-    bounds = [(0, 1)] * 50  
+    bounds = [(0, 1)] * 50  # Asumiendo que hay 50 ítems, y cada uno puede estar o no en la mochila (binario)    
        
         
     @staticmethod
@@ -1786,7 +1795,8 @@ class CEC2021_RWCMO_52:
     
 class BeamOptimization:
     name = "40-Bar Beam Optimization"
-    optimal = 0  # Valor óptimo desconocido, se busca minimizar la deflexión   
+    optimal = 0  # Valor óptimo desconocido, se busca minimizar la deflexión
+    # Definimos los límites de cada variable: diámetro de las barras y longitud de cada sección
     bounds = [(0.05, 0.5)] * 40 + [(1, 5)] * 40  # 40 diámetros y 40 longitudes
 
     @staticmethod
@@ -1831,7 +1841,7 @@ class BeamOptimization:
 
 class WaterResourceManagement:
     name = "Dam System Optimization"
-    optimal = 0  
+    optimal = 0  # Valor óptimo desconocido, se busca minimizar los costos
     bounds = [(15, 90), (20, 85), (18, 80)]  # Volúmenes de agua almacenados en cada represa (en millones de m^3)
     
     min_levels = [15, 20, 18]
@@ -1932,3 +1942,347 @@ class CEC2021_RWCMO_54:
         theta = np.radians(wind_direction - np.arctan2(yi, xi))
         v_rel = wind_speed * np.cos(theta)
         return frequency_interval * 0.5 * Pr * np.pi * R**2 * Cp * v_rel**3   
+    
+
+########## CEC 2011 Real World bound-constrained optimization problems ##########    
+class CEC2021_RWCMO_55:
+    name = "Lennard-Jones Potential Problem"
+    optimal = -9.103852  # Valor óptimo a determinar
+    # Los bounds se definirán según el número de partículas
+    # Para cada partícula necesitamos 3 coordenadas (x,y,z)
+    # Por ejemplo, para 5 partículas serían 15 dimensiones
+    bounds = [(-2, 2)] * 15  # Ejemplo para 5 partículas, ajustar según necesidad
+
+    @staticmethod
+    def function(x):
+        """
+        Calcula el potencial de Lennard-Jones para un conjunto de partículas.
+        x debe ser un array de dimensión n donde n es perfectamente divisible por 3.
+        Cada 3 valores representan las coordenadas (x,y,z) de una partícula.
+        """
+        x = np.atleast_2d(x)  # Asegurarse de que x es 2D
+        
+        if x.shape[1] % 3 != 0:
+            raise ValueError('x debe tener una dimensión perfectamente divisible por 3')
+            
+        n = x.shape[1] // 3  # Número de partículas
+        x_reshaped = x.reshape(-1, n, 3)  # Reorganizar en forma (muestras, partículas, coordenadas)
+        
+        v = np.zeros(x.shape[0])  # Vector para almacenar el potencial de cada muestra
+        
+        for sample_idx in range(x.shape[0]):
+            particles = x_reshaped[sample_idx]
+            potential = 0
+            
+            # Calcular distancias y potencial entre cada par de partículas
+            for i in range(n-1):
+                for j in range(i+1, n):
+                    # Calcular distancia euclidiana entre partículas i y j
+                    r = np.sqrt(np.sum((particles[i] - particles[j])**2))
+                    
+                    # Evitar división por cero
+                    if r > 1e-10:
+                        # Calcular potencial usando los parámetros a=1 y b=2
+                        potential += (1/r**12 - 2/r**6)
+            
+            v[sample_idx] = potential
+        
+        return v if len(v) > 1 else v[0]    
+
+class CEC2021_RWCMO_56:
+    name = "Tersoff Potential Problem - Si(B) Model"
+    optimal = 0  # Valor óptimo a determinar
+    bounds = [(-2, 2)] * 30  # Ejemplo para 5 átomos, ajustar según necesidad
+    
+    # Constantes del potencial de Tersoff para Si(B)
+    R1 = 3.0
+    R2 = 0.2
+    A = 3.2647e3
+    B = 9.5373e1
+    lambda1 = 3.2394
+    lambda2 = 1.3258
+    lambda3 = 1.3258
+    c = 4.8381
+    d = 2.0417
+    n1 = 22.956
+    gamma = 0.33675
+    h = 0
+
+    @staticmethod
+    def function(x):
+        """
+        Calcula el potencial de Tersoff para un conjunto de átomos de silicio.
+        
+        Args:
+            x: Array de dimensión n donde n es perfectamente divisible por 3.
+               Cada 3 valores representan las coordenadas (x,y,z) de un átomo.
+               
+        Returns:
+            Valor del potencial de Tersoff para la configuración dada.
+        """
+        x = np.atleast_2d(x)
+        if x.shape[1] % 3 != 0:
+            raise ValueError('x debe tener una dimensión perfectamente divisible por 3')
+        
+        NP = x.shape[1] // 3  # Número de átomos
+        x_reshaped = x.reshape(-1, NP, 3)  # Reorganizar en (muestras, átomos, coordenadas)
+        
+        potentials = np.zeros(x.shape[0])  # Almacenar potencial para cada muestra
+        
+        for sample_idx in range(x.shape[0]):
+            positions = x_reshaped[sample_idx]
+            
+            # Calcular matriz de distancias entre todos los átomos
+            r = np.zeros((NP, NP))
+            fcr = np.zeros((NP, NP))
+            VRr = np.zeros((NP, NP))
+            VAr = np.zeros((NP, NP))
+            
+            # Primera fase: cálculo de distancias y funciones de corte
+            for i in range(NP):
+                for j in range(NP):
+                    r[i,j] = np.sqrt(np.sum((positions[i] - positions[j])**2))
+                    
+                    # Función de corte
+                    if r[i,j] < (CEC2021_RWCMO_56.R1 - CEC2021_RWCMO_56.R2):
+                        fcr[i,j] = 1.0
+                    elif r[i,j] > (CEC2021_RWCMO_56.R1 + CEC2021_RWCMO_56.R2):
+                        fcr[i,j] = 0.0
+                    else:
+                        fcr[i,j] = 0.5 - 0.5 * np.sin(np.pi/2 * (r[i,j] - CEC2021_RWCMO_56.R1) / CEC2021_RWCMO_56.R2)
+                    
+                    # Potenciales de repulsión y atracción
+                    VRr[i,j] = CEC2021_RWCMO_56.A * np.exp(-CEC2021_RWCMO_56.lambda1 * r[i,j])
+                    VAr[i,j] = CEC2021_RWCMO_56.B * np.exp(-CEC2021_RWCMO_56.lambda2 * r[i,j])
+            
+            # Segunda fase: cálculo de la energía total
+            E = np.zeros(NP)
+            for i in range(NP):
+                for j in range(NP):
+                    if i == j:
+                        continue
+                        
+                    # Calcular término de enlace Bij
+                    jeta = 0
+                    for k in range(NP):
+                        if i == k or j == k:
+                            continue
+                            
+                        # Calcular ángulo coseno entre enlaces i-j e i-k
+                        rd1 = r[i,k]
+                        rd2 = r[i,j]
+                        rd3 = r[k,j]
+                        
+                        if rd1 * rd2 > 1e-10:  # Evitar división por cero
+                            ctheta_ijk = (rd1**2 + rd2**2 - rd3**2) / (2 * rd1 * rd2)
+                            ctheta_ijk = np.clip(ctheta_ijk, -1.0, 1.0)  # Asegurar valor válido
+                            
+                            G_th_ijk = (1 + CEC2021_RWCMO_56.c**2/CEC2021_RWCMO_56.d**2 - 
+                                      CEC2021_RWCMO_56.c**2/(CEC2021_RWCMO_56.d**2 + 
+                                      (CEC2021_RWCMO_56.h - ctheta_ijk)**2))
+                            
+                            jeta += fcr[i,k] * G_th_ijk * np.exp(CEC2021_RWCMO_56.lambda3**3 * 
+                                                                (r[i,j] - r[i,k])**3)
+                    
+                    Bij = (1 + (CEC2021_RWCMO_56.gamma * jeta)**CEC2021_RWCMO_56.n1)**(-0.5/CEC2021_RWCMO_56.n1)
+                    E[i] += fcr[i,j] * (VRr[i,j] - Bij * VAr[i,j]) / 2
+            
+            potentials[sample_idx] = np.sum(E)
+        
+        return potentials if len(potentials) > 1 else potentials[0]    
+
+class CEC2021_RWCMO_57:
+    name = "Spectrum Radial Phase Problem"
+    optimal = 0  # Valor óptimo a determinar
+    # Los bounds se definirán según la dimensión d del problema
+    bounds = [(-np.pi, np.pi)] * 30  # Ejemplo para d=10, ajustar según necesidad
+
+    @staticmethod
+    def function(x):
+        """
+        Calcula el máximo del espectro radial para una secuencia de fases.
+        
+        Args:
+            x: Array de dimensión d que representa las fases.
+               Cada elemento debe estar en el rango [-π, π].
+               
+        Returns:
+            El máximo valor del espectro radial.
+        """
+        x = np.atleast_2d(x)
+        results = np.zeros(x.shape[0])
+        
+        for sample_idx in range(x.shape[0]):
+            sample = x[sample_idx]
+            d = len(sample)  # dimensión del problema
+            var = 2 * d - 1
+            hsum = np.zeros(2 * var)
+            
+            # Calcular la suma para cada término
+            for kk in range(1, 2 * var + 1):
+                if kk % 2 != 0:  # Caso impar
+                    i = (kk + 1) // 2
+                    for j in range(i, d):
+                        # Calcular la suma interna
+                        i1_start = max(abs(2 * i - j - 1), 0)
+                        summ = np.sum(sample[i1_start:j])
+                        hsum[kk-1] += np.cos(summ)
+                        
+                else:  # Caso par
+                    i = kk // 2
+                    for j in range(i, d):
+                        # Calcular la suma interna
+                        i1_start = max(abs(2 * i - j), 0)
+                        summ = np.sum(sample[i1_start:j])
+                        hsum[kk-1] += np.cos(summ)
+                    hsum[kk-1] += 0.5
+            
+            results[sample_idx] = np.max(hsum)
+        
+        return results if len(results) > 1 else results[0]
+
+    @staticmethod
+    def calculate_sum(x, i, j, offset=0):
+        """
+        Función auxiliar para calcular la suma interna.
+        
+        Args:
+            x: Array de valores
+            i: Índice i
+            j: Índice j
+            offset: Offset para el cálculo del índice inicial
+            
+        Returns:
+            Suma de los elementos en el rango especificado
+        """
+        i1_start = max(abs(2 * i - j - offset), 0)
+        return np.sum(x[i1_start:j]) if i1_start < j else 0    
+    
+    
+class CEC2021_RWCMO_58:
+    name = "Circular Antenna Array Optimization"
+    optimal = 0  # Valor óptimo a determinar
+    # Los bounds dependerán del número de elementos en el arreglo
+    bounds = [(0, 1), (0, 360)] * 8  # Ejemplo para 8 elementos (amplitud y fase)
+
+    @staticmethod
+    def array_factor_circular(x, phi, phi_desired, distance, dim):
+        """
+        Calcula el factor de arreglo para una antena circular.
+        
+        Args:
+            x: Parámetros del arreglo (amplitudes y fases)
+            phi: Ángulo de observación en radianes
+            phi_desired: Ángulo deseado en grados
+            distance: Distancia entre elementos
+            dim: Dimensión del problema (número total de parámetros)
+        """
+        y = 0
+        y1 = 0
+        
+        # Primera mitad - contribución de las amplitudes y fases positivas
+        for i in range(dim // 2):
+            delphi = 2 * np.pi * i / dim
+            shi = (np.cos(phi - delphi) - np.cos(phi_desired * np.pi/180 - delphi)) * dim * distance
+            y += x[i] * np.cos(shi + x[i + dim//2] * np.pi/180)
+            y1 += x[i] * np.sin(shi + x[i + dim//2] * np.pi/180)
+            
+        # Segunda mitad - contribución de las amplitudes y fases negativas
+        for i in range(dim // 2, dim):
+            delphi = 2 * np.pi * i / dim
+            shi = (np.cos(phi - delphi) - np.cos(phi_desired * np.pi/180 - delphi)) * dim * distance
+            y += x[i - dim//2] * np.cos(shi - x[i] * np.pi/180)
+            y1 += x[i - dim//2] * np.sin(shi - x[i] * np.pi/180)
+            
+        return np.sqrt(y*y + y1*y1)
+
+    @staticmethod
+    def trapezoidal_integration(x, lower, upper, N, phi_desired, distance, dim):
+        """
+        Realiza integración trapezoidal para calcular la directividad.
+        """
+        h = (upper - lower) / N
+        x1 = lower
+        y = np.zeros(N + 1)
+        
+        # Calcular valores en los puntos
+        for i in range(N + 1):
+            y[i] = abs(CEC2021_RWCMO_58.array_factor_circular(x, x1, phi_desired, distance, dim)**2 * 
+                      np.sin(x1 - np.pi/2))
+            x1 += h
+            
+        # Aplicar regla trapezoidal
+        return (h/2) * (y[0] + 2*np.sum(y[1:-1]) + y[-1])
+
+    @staticmethod
+    def function(x):
+        """
+        Función objetivo para optimización de antena circular.
+        
+        Args:
+            x: Array de parámetros [amplitudes, fases]
+        
+        Returns:
+            Valor de fitness que combina SLL, ancho de haz, nulos y directividad
+        """
+        x = np.atleast_2d(x)
+        results = np.zeros(x.shape[0])
+        
+        for idx in range(x.shape[0]):
+            sample = x[idx]
+            dim = len(sample)
+            distance = 0.5  # λ/2 spacing
+            phi_desired = 180  # Ángulo deseado del haz principal
+            null_angles = np.array([])  # Ángulos donde se desean nulos
+            
+            # Calcular patrón de radiación
+            num_points = 300
+            phi = np.linspace(0, 360, num_points)
+            yax = np.array([CEC2021_RWCMO_58.array_factor_circular(sample, p*np.pi/180, 
+                          phi_desired, distance, dim) for p in phi])
+            
+            # Encontrar máximo y su posición
+            maxi = np.max(yax)
+            phi_ref = np.argmax(yax)
+            phizero = phi[phi_ref]
+            
+            # Encontrar lóbulos laterales
+            peaks = []
+            for i in range(1, len(yax)-1):
+                if yax[i] > yax[i-1] and yax[i] > yax[i+1]:
+                    peaks.append((yax[i], phi[i]))
+            peaks.sort(reverse=True)
+            
+            # Calcular SLL
+            sll = 20 * np.log10(peaks[1][0]/maxi) if len(peaks) > 1 else -100
+            
+            # Calcular ancho de haz
+            bwfn = 0
+            for i in range(1, num_points//2):
+                if phi_ref + i < num_points and yax[phi_ref + i] < yax[phi_ref + i - 1]:
+                    bwfn = 2 * (phi[phi_ref + i] - phi[phi_ref])
+                    break
+            
+            # Calcular directividad
+            uavg = CEC2021_RWCMO_58.trapezoidal_integration(sample, 0, 2*np.pi, 50, 
+                                                          phi_desired, distance, dim)
+            directivity = 10 * np.log10(abs(2*np.pi*maxi*maxi/uavg))
+            
+            # Calcular error en ángulo del haz principal
+            beam_error = abs(phizero - phi_desired)
+            beam_error = 0 if beam_error < 5 else beam_error
+            
+            # Calcular penalización por ancho de haz
+            bw_penalty = abs(bwfn - 80) if bwfn > 80 else 0
+            
+            # Calcular control de nulos
+            null_level = 0
+            if len(null_angles) > 0:
+                for null_angle in null_angles:
+                    null_level += CEC2021_RWCMO_58.array_factor_circular(sample, null_angle*np.pi/180, 
+                                                                      phi_desired, distance, dim) / maxi
+            
+            # Combinar todos los términos en la función objetivo
+            results[idx] = sll + bw_penalty + null_level + beam_error
+            
+        return results if len(results) > 1 else results[0]    
